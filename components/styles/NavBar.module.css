@@ -1,0 +1,77 @@
+.nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0 20px;
+}
+
+.logo img {
+  display: block;
+}
+
+.menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 2rem;
+}
+.menu .link {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+.menu .link:hover {
+  opacity: 0.7;
+}
+.menu .button {
+  background-color: white;
+  color: rgba(34, 34, 34, 0.9058823529);
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  -webkit-box-shadow: 0 4 10 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4 10 rgba(0, 0, 0, 0.2);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.menu .button:hover {
+  background-color: #f2f2f2;
+  -webkit-transform: translateY(-5px);
+          transform: translateY(-5px);
+}
+
+.button {
+  background-color: white;
+  color: rgba(34, 34, 34, 0.6235294118);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.button:hover {
+  background-color: #f1f1f1;
+}
+
+@media screen and (max-width: 800px) {
+  .menu .link {
+    display: none;
+  }
+}/*# sourceMappingURL=NavBar.module.css.map */

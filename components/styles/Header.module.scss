@@ -1,0 +1,107 @@
+.header {
+  position: relative;
+  background: linear-gradient(165deg, #00d17d 0%, #66ff75 45%, #ffffff 47%);
+  padding-top: 4rem;
+  height: 100vh;
+  color: white;
+  overflow: hidden;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem 2rem;
+  text-align: center;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    max-width: 1000px;
+    margin-inline: auto;
+    font-weight: 700;
+  }
+
+  .cta {
+    background-color: white;
+    color: #222222e7;
+    font-weight: 600;
+    padding: 0.8rem 1.8rem;
+    border-radius: 12px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+    box-shadow: 0 4 10 rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      background-color: #f2f2f2;
+      transform: translateY(-5px);
+    }
+  }
+}
+
+.imageWrapper {
+  position: relative;
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .overlay {
+    position: absolute;
+    right: 5%;
+    border: 2px solid rgba(128, 128, 128, 0.205);
+    bottom: -50px;
+    width: auto;
+    height: auto;
+    max-width: 300px;
+    border-radius: 1rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+
+  .header {
+    background: linear-gradient(165deg, #00d17d 0%, #66ff75 65%);
+  }
+  .imageWrapper {
+    .overlay {
+      max-width:25%;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .content {
+    p {
+      font-size: 1.3rem;
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .header {
+    max-height: 80vh;
+  }
+  .content {
+    h1 {
+      font-size: 2.2rem;
+    }
+  }
+
+  .imageWrapper {
+    display: none;
+  }
+}

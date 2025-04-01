@@ -1,0 +1,93 @@
+.section {
+  padding: 5rem 2rem;
+  text-align: center;
+  background: none;
+}
+
+.title {
+  margin-bottom: 3rem;
+}
+.title h2 {
+  font-size: 2rem;
+  color: #222;
+  margin-bottom: 0.5rem;
+}
+.title p {
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  gap: 3rem;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.features {
+  list-style: disc;
+  text-align: left;
+  padding-left: 1.5rem;
+}
+.features li {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  color: #444;
+}
+
+.priceBox {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  -webkit-box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+  min-width: 260px;
+}
+.priceBox .price {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00b976;
+}
+.priceBox .subPrice {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #777;
+}
+
+.cta {
+  margin-top: 2rem;
+}
+.cta p {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+  color: #444;
+}
+.cta button {
+  margin-top: 1rem;
+  background: -webkit-gradient(linear, left top, right bottom, from(rgba(102, 255, 117, 0.2392156863)), to(rgba(0, 209, 125, 0.2588235294)));
+  background: linear-gradient(to bottom right, rgba(102, 255, 117, 0.2392156863), rgba(0, 209, 125, 0.2588235294));
+  color: rgba(34, 34, 34, 0.5843137255);
+  font-weight: 500;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  -webkit-transition: -webkit-transform 0.3s ease;
+  transition: -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+}
+.cta button:hover {
+  -webkit-transform: translateY(-5px);
+          transform: translateY(-5px);
+}/*# sourceMappingURL=PricingSection.module.css.map */

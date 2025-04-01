@@ -1,0 +1,82 @@
+@charset "UTF-8";
+.section {
+  padding: 5rem 2rem;
+  background: -webkit-gradient(linear, left top, right bottom, from(rgba(102, 255, 117, 0.2392156863)), to(rgba(0, 209, 125, 0.2588235294)));
+  background: linear-gradient(to bottom right, rgba(102, 255, 117, 0.2392156863), rgba(0, 209, 125, 0.2588235294));
+  text-align: center;
+}
+
+.title {
+  max-width: 1000px;
+  margin: 0 auto 3rem;
+}
+.title h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 1rem;
+}
+.title p {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 3rem;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  text-align: left;
+}
+
+.list {
+  max-width: 450px;
+  font-size: 1rem;
+  color: #444;
+}
+.list li {
+  margin-bottom: 1rem;
+  list-style: none;
+  padding-left: 1.5rem;
+  position: relative;
+}
+.list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #00b976;
+  font-weight: bold;
+}
+
+.image {
+  min-width: 250px;
+}
+.image img {
+  border-radius: 10px;
+  max-width: 100%;
+  height: auto;
+  -webkit-box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  .content {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    text-align: center;
+  }
+  .content .list {
+    text-align: left;
+  }
+}/*# sourceMappingURL=LegacySection.module.css.map */
