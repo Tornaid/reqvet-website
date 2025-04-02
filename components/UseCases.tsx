@@ -35,7 +35,7 @@ export default function UseCases() {
               <h4>En différé, à voix haute</h4>
               <p>
                 En fin de journée ou entre deux consultations, dictez simplement
-                vos notes et souvenirs à l’oral. <br/> Laissez ReqVet générer le compte-rendu pour vous.<br />
+                vos notes et souvenirs à l’oral. <br/> Laissez ReqVet générer le compte-rendu pour vous.<br /><br />
                 <strong>Idéal et recommandé après les longues consultations.</strong>
               </p>
             </div>
