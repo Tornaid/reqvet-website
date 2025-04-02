@@ -5,6 +5,7 @@ import HowItWorks from '@/components/HowItWorks';
 import LegacySection from '@/components/LegacySection';
 import PricingSection from '@/components/PricingSection';
 import TemplatesSection from '@/components/TemplatesSection';
+import UseCases from '@/components/UseCases';
 
 
 export default function HomePage() {
@@ -12,6 +13,7 @@ export default function HomePage() {
     <main>
       <Header />
       <HowItWorks />
+      <UseCases />
       <TemplatesSection />
       <DogbotSection />
       <PricingSection />

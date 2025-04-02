@@ -93,7 +93,7 @@
 
 @media screen and (max-width: 650px) {
   .header {
-    max-height: 80vh;
+    max-height: 60vh;
   }
   .content {
     h1 {
@@ -102,6 +102,15 @@
   }
 
   .imageWrapper {
-    display: none;
+    img {
+      display: none;
+    }
+    
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .header {
+    max-height: 80vh;
   }
 }
