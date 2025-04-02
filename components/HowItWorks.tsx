@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function HowItWorksSection() {
   return (
-    <section className={styles.section}>
+    <section id="outil" className={styles.section}>
       <div className={styles.text}>
         <h2>Comment ça marche ?</h2>
         <p>

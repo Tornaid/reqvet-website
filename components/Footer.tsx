@@ -1,5 +1,6 @@
 "use client";
 
+import { Instagram } from "lucide-react";
 import styles from "./styles/Footer.module.scss";
 import Image from "next/image";
 
@@ -30,7 +31,6 @@ export default function Footer() {
         </div>
 
         {/* Colonne 2 : Mentions */}
-        {/* Colonne 2 : Mentions */}
         <div className={styles.col}>
           <h4>Informations</h4>
           <ul>
@@ -44,7 +44,11 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="/docs/CGV_ReqVet.pdf" target="_blank" rel="noopener noreferrer">
+              <a
+                href="/docs/CGV_ReqVet.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 CGV
               </a>
             </li>
@@ -63,8 +67,8 @@ export default function Footer() {
         {/* Colonne 3 : Réseaux sociaux */}
         <div className={styles.col}>
           <h4>Réseaux</h4>
-          {/* <ul>
-            <li>
+          <ul>
+            {/* <li>
               <a href="https://linkedin.com/company/reqvet" target="_blank">
                 LinkedIn
               </a>
@@ -73,13 +77,22 @@ export default function Footer() {
               <a href="https://twitter.com/reqvet" target="_blank">
                 Twitter
               </a>
-            </li>
+            </li> */}
             <li>
-              <a href="https://instagram.com/reqvet" target="_blank">
-                Instagram
+              <a
+                href="https://www.instagram.com/reqvet.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="/instagram.png"
+                  alt="Instagram"
+                  width={24}
+                  height={24}
+                />
               </a>
             </li>
-          </ul> */}
+          </ul>
         </div>
 
         {/* Colonne 4 : Contact */}

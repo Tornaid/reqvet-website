@@ -63,30 +63,6 @@ const templates: Template[] = [
         `,
   },
   {
-    id: "nutrition",
-    label: "Nutrition",
-    description: "Modèle consultation nutrition",
-    content: `
-      Description de l'animal :
-      Nom, Espèce, Age, Râce, Sexe, Statut physilogique
-
-      OD
-      - Taille et position du globe oculaire :
-      - Réponse de clignement à la menace : 
-      - Réponse de clignement à la lumière :
-      - Réflexe pupillaire photomoteur direct : 
-      - Réflexe pupillaire photomoteur indirect : 
-      Annexe de l'oeil :
-      - Appareil lacrymal :
-        Test de Schirmer : (valeur en mm/min)
-      ...
-
-      OG
-      - Taille et position du globe oculaire :
-      - ...
-        `,
-  },
-  {
     id: "ophthalmology",
     label: "Ophtalmologie",
     description: "Modèle consultation ophtalmologie",
@@ -150,7 +126,7 @@ export default function TemplatesSection() {
 
         <div className={styles.cardsWrapper}>
           <div className={styles.cards}>
-            {templates.slice(0, 4).map((template) => (
+            {templates.slice(0, 3).map((template) => (
               <div
                 key={template.id}
                 className={`${styles.card} ${

@@ -16,7 +16,7 @@ export default function NavBar() {
         <a href="#tarification" className={styles.link}>Tarification</a>
 
         <a href="https://app.reqvet.com" className={styles.button}>
-          Application
+          Connexion
         </a>
       </div>
     </nav>

@@ -12,7 +12,7 @@ export default function Header() {
       <div className={styles.content}>
         <h1>Soignez. Parlez. C’est rédigé.</h1>
         <p>
-        Un outil simple et rapide, pensé pour vous libérer de la rédaction des comptes-rendus et vous faire gagner du temps au quotidien.
+        Un outil simple et rapide, pensé pour vous faciliter la rédaction des comptes-rendus et vous faire gagner du temps au quotidien.
         </p>
 
         <a href="https://app.reqvet.com/signup" className={styles.cta}>

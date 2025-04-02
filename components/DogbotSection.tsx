@@ -11,8 +11,8 @@ export default function DogbotSection() {
         <h2>Découvrez Dogbot <PawPrint size={30} /></h2>
         <p>
           Un assistant virtuel à votre disposition pour approfondir l’analyse de la consultation
-          ou son suivi en rédigeant pour vous des mails ou résumés à destination des propriétaires
-          ou consoeurs / confrères.
+          et son suivi en rédigeant pour vous des mails ou résumés à destination des propriétaires
+          mais aussi de vos consoeurs et confrères.
         </p>
       </div>
 
