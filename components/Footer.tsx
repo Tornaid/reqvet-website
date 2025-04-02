@@ -1,6 +1,5 @@
 "use client";
 
-import { Instagram } from "lucide-react";
 import styles from "./styles/Footer.module.scss";
 import Image from "next/image";
 
