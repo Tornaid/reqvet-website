@@ -83,12 +83,39 @@
   
 
   .previewContent {
-    white-space: pre-wrap;
     font-size: 1rem;
     color: #444;
-    line-height: 1.2;
+    line-height: 1.5;
+  
+    h4 {
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 0.5rem;
+    }
+  
+    p {
+      margin-bottom: 1rem;
+    }
+  
+    strong {
+      font-weight: 600;
+      color: #222;
+    }
+  
+    em {
+      font-style: italic;
+    }
+  
+    ul {
+      margin: 0.5rem 0;
+      padding-left: 1.2rem;
+    }
+  
+    li {
+      margin-bottom: 0.4rem;
+    }
   }
-
+  
   
   .cards {
     display: flex;

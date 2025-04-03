@@ -31,11 +31,11 @@
   .card {
     width: 450px;
     aspect-ratio: 2/3; // ✅ adapte automatiquement la hauteur en fonction de la largeur
-    border-radius: 1rem;
+    border-radius: 15px;
     overflow: hidden;
     position: relative;
-    background: #f8f8f8;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background: none;
+    box-shadow: 0 10 20px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
   
     .image {
@@ -55,7 +55,7 @@
         bottom: 0;
         width: 100%;
         height: 30%;
-        background: linear-gradient(to bottom right, #66ff75a4, #00d17dee);
+        background: rgba(255, 255, 255, 0.877);
         padding: 10px;
         backdrop-filter: blur(4px);
         color: #000;
@@ -109,4 +109,59 @@
     }
   }
   
+
+  @media screen and (max-width: 500px) {
+    .useCases {
+        h2 {
+            font-size: 1.8rem;
+            padding: 20px;
+        }
+
+        p {
+            font-size: 1rem;
+            padding: 20px;
+        }
+    }
+
+
+    .cards {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card {
+      .image {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+    
+        .description {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 30%;
+          background: rgba(255, 255, 255, 0.877);
+          padding: 0;
+          backdrop-filter: blur(4px);
+          color: #000;
+  
+          h4 {
+            font-size: 1rem;
+            margin-bottom:05px;
+          }
+  
+          p {
+            font-size: 0.85rem;
+          }
+        }
+      }
+    }
+  }
   

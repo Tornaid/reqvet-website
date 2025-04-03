@@ -16,26 +16,26 @@ const templates: Template[] = [
     label: "Consultation Générale",
     description: "Modèle consultation générale",
     content: `
-      I. Commémoratif 
+  <h4>I. Commémoratif</h4>
+  <p><strong>Description de l'animal :</strong><br/>
+  Nom, Espèce, Âge, Race, Sexe, Statut physiologique</p>
 
-      Description de l'animal :
-      Nom, Espèce, Age, Râce, Sexe, Statut physilogique
+  <p><strong>Raison de la visite :</strong>
+  …</p>
 
-      Raison de la visite : 
-      
-      Statut vaccinal : 
+  <p><strong>Statut vaccinal :</strong>
+  …</p>
 
-      Traitement anti-parasitaire
-        - Interne (API) :
-        - Externe (APE) : 
-        ...
+  <p><strong>Traitement anti-parasitaire :</strong><br/>
+  - Interne (API)<br/>
+  - Externe (APE)</p>
 
-    II. Anamnèse 
-    III. Examen Clinique
-    ...
-    
+  <h4>II. Anamnèse</h4>
+  <p>…</p>
 
-        `,
+  <h4>III. Examen Clinique</h4>
+  <p>…</p>
+`,
   },
 
   {
@@ -43,64 +43,72 @@ const templates: Template[] = [
     label: "Comportement",
     description: "Modèle consultation comportement",
     content: `
-      I. Commémoratif 
+  <h4>I. Commémoratif</h4>
+  <p><strong>Description de l'animal :</strong><br/>
+  Nom, Espèce, Âge, Race, Sexe, Statut physiologique</p>
 
-      Description de l'animal :
-      Nom, Espèce, Age, Râce, Sexe, Statut physilogique
+  <p><strong>Motif de consultation :</strong>
+  …</p>
 
-      Motif de consultation :
+  <p><strong>Attentes :</strong>
+  …</p>
 
-      Attentes :
+  <p><strong>Historique :</strong>
+  …</p>
 
-      Historique : 
+  <p><strong>Mode de vie :</strong>
+  …</p>
 
-      Mode de vie : 
+  <h4>II. Examen Clinique</h4>
+  <p>…</p>
 
-      ...
-      II. Examen Clinique 
-      III. Examen Comportemental
-      ...
-        `,
+  <h4>III. Examen Comportemental</h4>
+  <p>…</p>
+`,
   },
   {
     id: "ophthalmology",
     label: "Ophtalmologie",
     description: "Modèle consultation ophtalmologie",
     content: `
-      Description de l'animal :
-      Nom, Espèce, Age, Râce, Sexe, Statut physilogique
+  <p><strong>Description de l'animal :</strong><br/>
+  Nom, Espèce, Âge, Race, Sexe, Statut physiologique</p>
 
-      OD
-      - Taille et position du globe oculaire :
-      - Réponse de clignement à la menace : 
-      - Réponse de clignement à la lumière :
-      - Réflexe pupillaire photomoteur direct : 
-      - Réflexe pupillaire photomoteur indirect : 
-      Annexe de l'oeil :
-      - Appareil lacrymal :
-        Test de Schirmer : (valeur en mm/min)
-      ...
+  <h4>OD</h4>
+  <ul>
+    <li>Taille et position du globe oculaire :</li>
+    <li>Réponse de clignement à la menace :</li>
 
-      OG
-      - Taille et position du globe oculaire :
-      - ...
-        `,
+    <li>…</li>
+  
+    <strong>Annexes de l'œil :</strong></li>
+    <li>Appareil lacrymal :</li>
+    <li>Test de Schirmer : (valeur en mm/min)</li>
+    <li>…</li>
+  </ul>
+
+  <h4>OG</h4>
+  <ul>
+    <li>Taille et position du globe oculaire :</li>
+    <li>…</li>
+  </ul>
+`
   },
   {
     id: "custom",
     label: "Consultation personnalisée",
     description: "Créez vos propres modèles",
     content: `
-  Créez un modèle 100 % sur mesure, adapté à vos besoins et à votre façon de travailler.
-  
-  Définissez vos propres sections (Commémoratif, Anamnèse, Examens complémentaires, etc.), indiquez vos préférences de rédaction, vos formulations ou vos points d'attention.
-  
-  L'outil s'ajustera automatiquement à votre spécialisation, votre quotidien et vos instructions pour générer un compte-rendu fidèle à votre pratique.
-  
-  C'est vous qui décidez de la structure et du ton : ReqVet s’adapte à vous, pas l’inverse.
-    `
-  }
-  
+  <p>Créez un modèle <strong>100 % sur mesure</strong>, adapté à vos besoins et à votre façon de travailler.</p>
+
+  <p>Définissez vos propres sections (<em>Commémoratif, Anamnèse, Examens complémentaires…</em>), indiquez vos préférences de rédaction, vos formulations ou vos points d'attention.</p>
+
+  <p>L'outil s'ajustera automatiquement à <strong>votre spécialisation</strong>, votre quotidien et vos instructions pour générer un compte-rendu fidèle à votre pratique.</p>
+
+  <p><strong>C'est vous qui décidez de la structure et du ton :</strong><br/>
+  ReqVet s’adapte à vous, pas l’inverse.</p>
+`,
+  },
 ];
 
 export default function TemplatesSection() {
@@ -111,7 +119,13 @@ export default function TemplatesSection() {
     <section className={styles.section}>
       <div className={styles.text}>
         <h2>Une solution qui s’adapte à votre pratique</h2>
-        <p> En clinique comme en visite à domicile, ReqVet vous accompagne partout grâce à son interface optimisée pour mobile. <br /> L’outil s’adapte à votre pratique et à vos spécialités grâce à des modèles de compte-rendus personnalisables. </p>
+        <p>
+          {" "}
+          En clinique comme en visite à domicile, ReqVet vous accompagne partout
+          grâce à son interface optimisée pour mobile. <br /> L’outil s’adapte à
+          votre pratique et à vos spécialités grâce à des modèles de
+          compte-rendus personnalisables.{" "}
+        </p>
       </div>
 
       <div className={styles.container}>
@@ -120,7 +134,10 @@ export default function TemplatesSection() {
             <h3>{selected?.label}</h3>
           </div>
           <div className={styles.previewBody}>
-            <pre>{selected?.content}</pre>
+            <div
+              className={styles.previewContent}
+              dangerouslySetInnerHTML={{ __html: selected?.content || "" }}
+            />
           </div>
         </div>
 
