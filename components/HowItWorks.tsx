@@ -37,7 +37,7 @@ export default function HowItWorksSection() {
             quality={100}
           />
           <div className={styles.overlay}>
-            <span>2. Démarrez votre consultation sans prendre de note</span>
+            <span>2. Démarrez votre consultation</span>
           </div>
         </div>
 
