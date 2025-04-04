@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: 'ReqVet - Assistant IA pour vétérinaires',
-  description: 'ReqVet est une application pour vétérinaires qui automatise la rédaction des comptes-rendus de consultation grâce à l’intelligence artificielle. Gagnez du temps, améliorez la traçabilité.',
+  title: 'ReqVet - Simplifier la rédaction des comptes-rendus vétérinaires',
+  description: 'ReqVet est une application pour vétérinaires qui automatise la rédaction des comptes-rendus de consultation grâce à l’intelligence artificielle. Gagnez du temps, améliorez votre qualité de vie.',
   keywords: [
     "application vétérinaire",
     "assistant vétérinaire",
@@ -18,7 +18,7 @@ export const metadata = {
     icon: '/favicon.ico', 
   },
   openGraph: {
-    title: 'ReqVet - Assistant IA pour vétérinaires',
+    title: 'ReqVet - Simplifier la rédaction des comptes-rendus vétérinaires',
     description: 'Automatisez vos comptes-rendus de consultation vétérinaire grâce à ReqVet, une application IA simple, rapide et efficace.',
     url: 'https://reqvet.com',
     siteName: 'ReqVet',
