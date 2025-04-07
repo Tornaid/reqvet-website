@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://reqvet.com/sitemap.xml
