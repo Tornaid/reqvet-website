@@ -55,7 +55,7 @@ export default function PricingSection() {
               utilisateurs à la demande, sans inscription en ligne.
             </p>
             <p>
-            Prenez le temps de tester ReqVet gratuitement avant de décider.
+              Prenez le temps de tester ReqVet gratuitement avant de décider.
               <PawPrint size={18} style={{ marginLeft: "8px" }} />
             </p>
           </div>
@@ -65,17 +65,31 @@ export default function PricingSection() {
               <strong>Contact direct :</strong>
             </p>
             <p>
-            <Mail size={18} strokeWidth={1.8} style={{ marginRight: "8px" }} />
+              <Mail
+                size={18}
+                strokeWidth={1.8}
+                style={{ marginRight: "8px" }}
+              />
               <a href="mailto:contact@reqvet.com">contact@reqvet.com</a>
-            </p><br /><br /><br /><br />            
+            </p>
+
+            <p>
+              <strong>Réserver un appel :</strong>
+              <br />
+              Un échange de 30 min pour vous présenter ReqVet, répondre à vos
+              questions et imaginer ensemble une nouvelle façon de pratiquer
+              avec notre outil.
+            </p>
+
             <a
-          href="https://app.reqvet.com/signup"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <button className={styles.secondTrialButton}>Tester ReqVet gratuitement</button>
-        </a>
-            
+              href="https://calendly.com/contact-reqvet/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className={styles.secondTrialButton}>
+                Réserver un rendez-vous
+              </button>
+            </a>
           </div>
         </div>
       </div>
