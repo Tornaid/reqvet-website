@@ -30,7 +30,7 @@ export default function NavBar() {
           },
         }}
       >
-        {['Outil', 'Dogbot', 'Tarification'].map((label, i) => (
+        {['Outil', 'Dogbot', 'Tarification'].map((label) => (
           <motion.a
             key={label}
             href={`#${label.toLowerCase()}`}

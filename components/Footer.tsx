@@ -83,7 +83,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img
+                <Image
                   src="/instagram.png"
                   alt="Instagram"
                   width={24}
