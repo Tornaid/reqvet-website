@@ -14,6 +14,7 @@ export default function Header() {
         <h2>
         Un outil simple et rapide, pensé pour vous faciliter la rédaction des comptes-rendus et vous faire gagner du temps au quotidien.
         </h2>
+        <p>Obtenez 10 CR gratuits pour tester ReqVet</p>
 
         <a href="https://app.reqvet.com/signup" className={styles.cta}>
           Tester Gratuitement

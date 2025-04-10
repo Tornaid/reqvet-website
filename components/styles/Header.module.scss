@@ -1,6 +1,6 @@
 .header {
   position: relative;
-  background: linear-gradient(165deg, #00d17d 0%, #66ff75 55%, #ffffff 57%);
+  background: linear-gradient(170deg, #00d17d 0%, #66ff75 55%, #ffffff 67%);
   padding-top: 4rem;
   height: 100vh;
   color: white;
@@ -27,11 +27,17 @@
     font-weight: 700;
   }
 
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
   .cta {
     background-color: white;
     color: #222222e7;
     font-weight: 600;
     padding: 0.8rem 1.8rem;
+    min-width: 300px;
     border-radius: 12px;
     text-decoration: none;
     display: inline-block;
@@ -109,8 +115,14 @@
   }
 }
 
+@media screen and (max-width: 500px) {
+  .header {
+    max-height: 70vh;
+  }
+}
+
 @media screen and (max-width: 400px) {
   .header {
-    max-height: 80vh;
+    max-height: 100vh;
   }
 }
