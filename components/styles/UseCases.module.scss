@@ -1,168 +1,95 @@
 .useCases {
-    max-width: 1200px;
-    margin: 0 auto;
-  padding-bottom: 50px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem 5rem;
+  text-align: center;
 
-    text-align: center;
-  
-    h2 {
-      font-size: 2rem;
-      color: #222;
-      margin-bottom: 0.5rem;
-    }
-  
-    p {
-      font-size: 1.1rem;
-      color: #555;
-      margin-bottom: 2.5rem;
-    }
+  h2 {
+    font-size: 2rem;
+    color: #222;
+    margin-bottom: 0.5rem;
   }
-  
-  .cards {
-    display: flex;
+
+  p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 2.5rem;
+    
+  }
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  width: 100%;
+}
+
+.card {
+  max-width: 450px;
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 4px 10px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.image {
+  width: 100%;
+
+  img {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 2rem;
+    height: auto;
+    object-fit: cover;
+    display: block;
   }
-  
+}
+
+.description {
+  background: linear-gradient(to bottom right, #66ff75cc, #00d17d);
+  color: white;
+  padding: 1.2rem;
+  text-align: left;
+
+  h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .useCases {
+    h2 {
+      font-size: 1.8rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
   .card {
-    width: 450px;
-    aspect-ratio: 2/3; // ✅ adapte automatiquement la hauteur en fonction de la largeur
-    border-radius: 15px;
-    overflow: hidden;
-    position: relative;
-    background: none;
-    border: none;
-    box-shadow: 4px 10px 10px rgba(0, 0, 0, 0.25);
-    transition: transform 0.3s ease;
-  
-    .image {
-      width: 100%;
-      height: 100%;
-      position: relative;
-  
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-  
-      .description {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 30%;
-        background: linear-gradient(to bottom right, #66ff75a2, #00d17d);
-        padding: 10px;
-        color: white;
-
-        h4 {
-          font-size: 1.3rem;
-          margin-bottom: 20px;
-          margin-top: 10px;
-          color: white;
-        }
-
-        p {
-          font-size: 1rem;
-          color: white;
-        }
-      }
-    }
-    
+    max-width: 90%;
   }
-  
-  
-  
-  @media screen and (max-width: 768px) {
-    .useCases {
-        h2 {
-            font-size: 1.8rem;
-        }
 
-        p {
-            font-size: 1rem;
-        }
+  .description {
+    padding: 1rem;
+
+    h4 {
+      font-size: 1.1rem;
     }
 
-
-    .cards {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .card {
-      width: 90%;
-      aspect-ratio: 3/4; // un ratio un peu plus vertical pour mobile
-    }
-  
-    .image .description {
-      padding: 1rem;
-  
-      h4 {
-        font-size: 1.2rem;
-      }
-  
-      p {
-        font-size: 0.95rem;
-      }
+    p {
+      font-size: 0.95rem;
     }
   }
-  
-
-  @media screen and (max-width: 500px) {
-    .useCases {
-        h2 {
-            font-size: 1.8rem;
-            padding: 20px;
-        }
-
-        p {
-            font-size: 1rem;
-            padding: 20px;
-        }
-    }
-
-
-    .cards {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .card {
-      .image {
-        width: 100%;
-        height: 100%;
-        position: relative;
-    
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-        }
-    
-        .description {
-          position: absolute;
-          bottom: 0;
-          width: 100%;
-          height: 40%;
-          padding: 0;
-  
-          h4 {
-            font-size: 1rem;
-            margin-bottom:05px;
-          }
-  
-          p {
-            font-size: 0.85rem;
-          }
-        }
-      }
-    }
-  }
-  
+}

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./styles/TemplatesSection.module.scss";
+import ScrollFadeIn from "./animations/ScrollFadeIn";
 
 type Template = {
   id: string;
@@ -92,7 +93,7 @@ const templates: Template[] = [
     <li>Taille et position du globe oculaire :</li>
     <li>…</li>
   </ul>
-`
+`,
   },
   {
     id: "custom",
@@ -117,62 +118,65 @@ export default function TemplatesSection() {
 
   return (
     <section className={styles.section}>
-      <div className={styles.text}>
-        <h2>Une solution qui s’adapte à votre pratique</h2>
-        <p>
-          {" "}
-          En clinique comme en visite à domicile, ReqVet vous accompagne partout
-          grâce à son interface optimisée pour mobile. <br /> L’outil s’adapte à
-          votre pratique et à vos spécialités grâce à des modèles de
-          compte-rendus personnalisables.{" "}
-        </p>
-      </div>
-
-      <div className={styles.container}>
-        <div className={styles.preview}>
-          <div className={styles.previewHeader}>
-            <h3>{selected?.label}</h3>
-          </div>
-          <div className={styles.previewBody}>
-            <div
-              className={styles.previewContent}
-              dangerouslySetInnerHTML={{ __html: selected?.content || "" }}
-            />
-          </div>
+      <ScrollFadeIn>
+        <div className={styles.text}>
+          <h2>Une solution qui s’adapte à votre pratique</h2>
+          <p>
+            En clinique comme en visite à domicile, ReqVet vous accompagne
+            partout grâce à son interface optimisée pour mobile. <br />
+            L’outil s’adapte à votre pratique et à vos spécialités grâce à des
+            modèles de compte-rendus personnalisables.
+          </p>
         </div>
+      </ScrollFadeIn>
 
-        <div className={styles.cardsWrapper}>
-          <div className={styles.cards}>
-            {templates.slice(0, 3).map((template) => (
+      <ScrollFadeIn>
+        <div className={styles.contentTemp}>
+          <div className={styles.cardsWrapper}>
+            <div className={styles.cards}>
+              {templates.slice(0, 3).map((template) => (
+                <div
+                  key={template.id}
+                  className={`${styles.card} ${
+                    selectedId === template.id ? styles.active : ""
+                  }`}
+                  onClick={() => setSelectedId(template.id)}
+                >
+                  <strong>{template.label}</strong>
+                  <span>{template.description}</span>
+                </div>
+              ))}
+            </div>
+
+            <h3>...</h3>
+
+            <div className={styles.customBlock}>
+              <h3>Ou bien créez vos propres modèles</h3>
               <div
-                key={template.id}
                 className={`${styles.card} ${
-                  selectedId === template.id ? styles.active : ""
+                  selectedId === "custom" ? styles.active : ""
                 }`}
-                onClick={() => setSelectedId(template.id)}
+                onClick={() => setSelectedId("custom")}
               >
-                <strong>{template.label}</strong>
-                <span>{template.description}</span>
+                <strong>Consultation personnalisée</strong>
+                <span>Créez vos propres modèles</span>
               </div>
-            ))}
+            </div>
           </div>
 
-          <h3>...</h3>
-
-          <div className={styles.customBlock}>
-            <h3>Ou bien créez vos propres modèles</h3>
-            <div
-              className={`${styles.card} ${
-                selectedId === "custom" ? styles.active : ""
-              }`}
-              onClick={() => setSelectedId("custom")}
-            >
-              <strong>Consultation personnalisée</strong>
-              <span>Créez vos propres modèles</span>
+          <div className={styles.preview}>
+            <div className={styles.previewHeader}>
+              <h3>{selected?.label}</h3>
+            </div>
+            <div className={styles.previewBody}>
+              <div
+                className={styles.previewContent}
+                dangerouslySetInnerHTML={{ __html: selected?.content || "" }}
+              />
             </div>
           </div>
         </div>
-      </div>
+      </ScrollFadeIn>
     </section>
   );
 }

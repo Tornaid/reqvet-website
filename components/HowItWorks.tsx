@@ -2,6 +2,7 @@
 import styles from "@/components/styles/HowItWorks.module.scss";
 import Image from "next/image";
 import { useState } from "react";
+import ScrollFadeIn from "./animations/ScrollFadeIn";
 
 const steps = [
   {
@@ -29,38 +30,44 @@ export default function HowItWorksSection() {
 
   return (
     <section id="outil" className={styles.section}>
-      <div className={styles.text}>
-        <h2>Comment ça marche ?</h2>
-        <p>
-          En enregistrant simplement vos consultations, notre outil se charge de
-          la transcrire et de générer automatiquement un compte-rendu complet et
-          structuré selon vos préférences, en quelques minutes.
-        </p>
-      </div>
+      <ScrollFadeIn>
+        <div className={styles.text}>
+          <h2>Comment ça marche ?</h2>
+          <p>
+            En enregistrant simplement vos consultations, notre outil se charge de
+            la transcrire et de générer automatiquement un compte-rendu complet et
+            structuré selon vos préférences, en quelques minutes.
+          </p>
+        </div>
+      </ScrollFadeIn>
 
       <div className={styles.contentWrapper}>
-        <div className={styles.steps}>
-          {steps.map((step, index) => (
-            <div
-              key={index}
-              className={`${styles.step} ${index === activeIndex ? styles.active : ""}`}
-              onClick={() => setActiveIndex(index)}
-            >
-              <h3>{step.title}</h3>
-              <p>{step.description}</p>
-            </div>
-          ))}
-        </div>
+        <ScrollFadeIn>
+          <div className={styles.steps}>
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                className={`${styles.step} ${index === activeIndex ? styles.active : ""}`}
+                onClick={() => setActiveIndex(index)}
+              >
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </ScrollFadeIn>
 
-        <div className={styles.imageWrapper}>
-          <Image
-            src={steps[activeIndex].image}
-            alt={`Étape ${activeIndex + 1}`}
-            width={500}
-            height={500}
-            quality={100}
-          />
-        </div>
+        <ScrollFadeIn>
+          <div className={styles.imageWrapper}>
+            <Image
+              src={steps[activeIndex].image}
+              alt={`Étape ${activeIndex + 1}`}
+              width={500}
+              height={500}
+              quality={100}
+            />
+          </div>
+        </ScrollFadeIn>
       </div>
     </section>
   );
