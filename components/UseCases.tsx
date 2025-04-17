@@ -8,11 +8,11 @@ export default function UseCases() {
   return (
     <section className={styles.useCases}>
       <ScrollFadeIn>
-        <h2>Intégrez ReqVet dans votre routine</h2>
+        <h2>Intégrez Reqvet dans votre routine</h2>
         <p>
           En consultation ou entre deux rendez-vous, ReqVet s’adapte à votre
-          rythme. Choisissez la méthode qui vous convient : enregistrement en
-          direct ou dictée différée.
+          rythme. Choisissez la méthode qui vous convient : <strong>enregistrement en
+          direct</strong> ou <strong>dictée différée</strong>.
         </p>
       </ScrollFadeIn>
 

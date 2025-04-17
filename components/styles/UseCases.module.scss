@@ -1,12 +1,13 @@
 .useCases {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 3rem 1rem 5rem;
   text-align: center;
 
   h2 {
-    font-size: 2rem;
-    color: #222;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #222222bb;
     margin-bottom: 0.5rem;
   }
 
@@ -40,6 +41,7 @@
 
 .image {
   width: 100%;
+  position: relative; // ✅ important pour que .description se positionne par-dessus
 
   img {
     width: 100%;
@@ -47,33 +49,44 @@
     object-fit: cover;
     display: block;
   }
+
+  .description {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 209, 125, 0.95), rgba(102, 255, 117, 0.85));
+    color: white;
+    padding: 1.5rem 1rem;
+    text-align: left;
+    backdrop-filter: blur(2px); // optionnel pour un effet "frosted"
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+
+    h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+      margin: 0;
+    }
+  }
 }
 
-.description {
-  background: linear-gradient(to bottom right, #66ff75cc, #00d17d);
-  color: white;
-  padding: 1.2rem;
-  text-align: left;
-
-  h4 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  p {
-    font-size: 1rem;
-    margin: 0;
-  }
-}
 
 @media screen and (max-width: 768px) {
   .useCases {
     h2 {
       font-size: 1.8rem;
+      text-align: left;
     }
 
     p {
       font-size: 1rem;
+      text-align: left;
     }
   }
 

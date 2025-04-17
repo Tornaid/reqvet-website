@@ -1,47 +1,94 @@
 "use client";
 
 import ScrollFadeIn from "./animations/ScrollFadeIn";
+import NavBar from "./NavBar";
 import styles from "./styles/PricingSection.module.scss";
 import { Mail, PawPrint } from "lucide-react";
 
 export default function PricingSection() {
   return (
     <section id="tarification" className={styles.section}>
+      <NavBar />
       <ScrollFadeIn>
         <div className={styles.title}>
           <h2>Tarification</h2>
           <p>
-            ReqVet c’est une tarification unique, avec un accès illimité à
-            toutes nos fonctionnalités
+            Les 10 premiers CR gratuits
+            <PawPrint size={15} style={{ marginLeft: 10, marginRight: 10 }} />
+            Accès complet sans restrictions pour 29,40€ / mois
           </p>
-        </div>
-      </ScrollFadeIn>
-
-      <ScrollFadeIn>
-        <div className={styles.container}>
-          <ul className={styles.features}>
-            <li>Génération de vos comptes-rendus</li>
-            <li>Option de régénération du CR</li>
-            <li>DogBot</li>
-            <li>Modèles personnalisés illimités</li>
-          </ul>
-
-          <div className={styles.priceBox}>
-            <p className={styles.price}>24€ TTC/mois /utilisateur</p>
-            <p className={styles.subPrice}>20€ HT (TVA 20% applicable)</p>
-          </div>
-        </div>
-
-        <div className={styles.cta}>
-          <p>Obtenez 10 CR gratuits pour tester ReqVet</p>
-          <p>Inscription directe, sans CB</p>
           <a
             href="https://app.reqvet.com/signup"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <button>Tester ReqVet gratuitement</button>
+            <button className={styles.ctaButton}>Tester ReqVet gratuitement</button>
           </a>
+        </div>
+      </ScrollFadeIn>
+
+      <ScrollFadeIn>
+        <div className={styles.container}>
+          {/* Colonne de gauche : offre standard */}
+          <div className={styles.standardOffer}>
+            <h3>Offre Cliniciens</h3>
+
+            <div className={styles.standardContent}>
+              {/* Colonne gauche : fonctionnalités */}
+              {/* <ul className={styles.features}>
+                <li>Génération de vos comptes-rendus</li>
+                <li>Option de régénération du CR</li>
+                <li>DogBot</li>
+                <li>Modèles personnalisés illimités</li>
+              </ul> */}
+
+              {/* Colonne droite : prix + bouton */}
+              <div className={styles.priceBlock}>
+                <div className={styles.priceBox}>
+                  <p className={styles.price}>29,40€ TTC / mois / clinicien</p>
+                  <p className={styles.subPrice}>24,50€ HT (TVA 20% applicable)</p>
+                </div>
+
+                <div className={styles.cta}>
+                  <p>
+                    Obtenez 10 CR gratuits pour tester Reqvet, vous pourrez
+                    souscrire par la suite.
+                  </p>
+                  <p>
+                    <em>Inscription immédiate, sans CB requise.</em>
+                  </p>
+                  <a
+                    href="https://app.reqvet.com/signup"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <button className={styles.ctaButton}>Tester ReqVet gratuitement</button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Colonne de droite : offre étudiant */}
+          <div className={styles.studentOffer}>
+            <h3>Offre Etudiants / Internes</h3>
+            <p>
+              Vous êtes étudiant ou interne en santé animale ? <br />
+              Bénéficiez de 20 CR gratuits / mois pendant toute la durée de
+              votre formation.
+            </p>
+            <p className={styles.studentPrice}>0 € / mois</p>
+            <p className={styles.subInfo}>Accès complet</p>
+
+            <a
+              href="https://reqvet.com/tarif"
+              rel="noopener noreferrer"
+            >
+              <button className={styles.ctaButton}>
+                Bientôt disponible
+              </button>
+            </a>
+          </div>
         </div>
       </ScrollFadeIn>
 
@@ -93,7 +140,7 @@ export default function PricingSection() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <button className={styles.secondTrialButton}>
+                <button className={styles.ctaButton}>
                   Réserver un rendez-vous
                 </button>
               </a>

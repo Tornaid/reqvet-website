@@ -1,7 +1,9 @@
 import DogbotSection from '@/components/DogbotSection';
+import FinalCTASection from '@/components/FinalCTASection';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import HowItWorks from '@/components/HowItWorks';
+import ImpactSection from '@/components/ImpactSection';
 import LegacySection from '@/components/LegacySection';
 import PricingSection from '@/components/PricingSection';
 import TemplatesSection from '@/components/TemplatesSection';
@@ -13,11 +15,14 @@ export default function HomePage() {
     <main>
       <Header />
       <HowItWorks />
+      <ImpactSection />
       <UseCases />
-      <TemplatesSection />
+      
+      {/* <TemplatesSection /> */}
       <DogbotSection />
-      <PricingSection />
+      {/* <PricingSection /> */}
       <LegacySection />
+      <FinalCTASection />
       <Footer />
       {/* Tu ajouteras les autres sections ici dans l’ordre d’apparition */}
       {/* <HowItWorks /> */}

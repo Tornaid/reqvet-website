@@ -1,17 +1,17 @@
 .section {
     padding: 5rem 2rem;
-    background: linear-gradient(to bottom right, #66ff7517, #00d17d1a);
+    background: linear-gradient(180deg, #00d17d 0%, #66ff75 100%, #ffffff 100%);
     text-align: center;
   }
   
   .title {
-    max-width: 1000px;
+    max-width: 1400px;
     margin: 0 auto 3rem;
   
     h2 {
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: 700;
-      color: #222;
+      color: #222222bb;
       margin-bottom: 1rem;
     }
   
@@ -66,8 +66,24 @@
     .content {
       flex-direction: column;
       text-align: center;
+
+      
   
       .list {
+        text-align: left;
+      }
+    }
+
+    .title {
+      h2 {
+        font-size: 1.8rem;
+        text-align: left;
+      }
+    
+      p {
+        font-size: 1rem;
+        color: #555;
+        line-height: 1.6;
         text-align: left;
       }
     }

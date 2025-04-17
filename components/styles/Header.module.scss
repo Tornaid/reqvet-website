@@ -1,67 +1,94 @@
 .header {
   position: relative;
-  background: linear-gradient(170deg, #00d17d 0%, #66ff75 55%, #ffffff 67%);
-  padding-top: 4rem;
-  height: 100vh;
+  background: linear-gradient(180deg, #00d17d 0%, #66ff75 75%, #ffffff 87%);
+  padding-top: 20px;
   color: white;
   overflow: hidden;
+  height: 100vh;
 }
 
 .content {
-  max-width: 1600px;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
   padding: 4rem 2rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
   text-align: center;
 
+  .left {
+    flex: 1;
+  }
+
+  .right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
   h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 3rem;
+    font-weight: 800;
     margin-bottom: 1rem;
   }
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     margin-bottom: 2rem;
     max-width: 1000px;
-    margin-inline: auto;
-    font-weight: 700;
+    font-weight: 500;
   }
 
   p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
+    font-size: 0.9rem;
+    margin: 20 auto;
+    text-align: center;
+  }
+
+  .ctaMobile {
+    display: none;
   }
 
   .cta {
     background-color: white;
-    color: #222222e7;
+    color: #222;
     font-weight: 600;
     padding: 0.8rem 1.8rem;
     min-width: 300px;
-    border-radius: 12px;
+    border-radius: 200px;
+    text-align: center;
     text-decoration: none;
     display: inline-block;
     transition: all 0.2s;
-    box-shadow: 0 4 10 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
     &:hover {
       background-color: #f2f2f2;
       transform: translateY(-5px);
     }
   }
+
+  .ctaText {
+    margin-top: 0;
+    padding-top: 0;
+  }
 }
+
 
 .imageWrapper {
   position: relative;
-  margin-top: 3rem;
   display: flex;
   justify-content: center;
+  margin-top: 50px;
 
   img {
     max-width: 100%;
     height: auto;
     border-radius: 1rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: none;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
   }
 
   .overlay {
@@ -90,17 +117,79 @@
 }
 
 @media screen and (max-width: 800px) {
+
+  .header {
+    height: 100vh;
+    position: relative;
+    background: linear-gradient(180deg, #00d17d 0%, #66ff75 85%, #ffffff 97%);
+  }
   .content {
-    p {
-      font-size: 1.3rem;
+    padding: 20px;
+  
+    .cta {
+      display: none; // on cache la version classique
+    }
+
+    .phoneImageWrapper {
+      display: none;
+      justify-content: center;
+      margin: 0 auto;
+    
+      @media screen and (max-width: 800px) {
+        display: flex;
+      }
+    }
+    
+    .phoneImage {
+      max-width: 100%;
+      height: auto;
+      
+      
+    }
+    
+  
+    .ctaMobileContainer {
+      position: absolute; // au lieu de fixed !
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      width: 100%;
+      padding: 0 1rem;
+    }
+  
+    .ctaMobile {
+      background-color: white;
+      color: #222;
+      font-weight: 600;
+      padding: 0.9rem 2rem;
+      border-radius: 200px;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s;
+  
+      &:hover {
+        background-color: #f2f2f2;
+        transform: translateY(-3px);
+      }
+    }
+  
+    .ctaText {
+      font-size: 0.9rem;
+      color: #222;
+      margin-top: 0.5rem;
     }
   }
+
+  
 }
 
 @media screen and (max-width: 650px) {
   .header {
-    max-height: 60vh;
+    height: 65vh;
   }
+
   .content {
     h1 {
       font-size: 2.2rem;
@@ -116,13 +205,24 @@
 }
 
 @media screen and (max-width: 500px) {
-  .header {
-    max-height: 70vh;
-  }
-}
 
-@media screen and (max-width: 400px) {
-  .header {
-    max-height: 100vh;
+
+  .content {
+    h1 {
+      font-size: 2rem;
+      text-align: left;
+    }
+
+    h2 {
+      font-size: 0.9rem;
+      text-align: left;
+      margin-bottom: 2rem;
+      max-width: 1000px;
+      font-weight: 500;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
   }
 }

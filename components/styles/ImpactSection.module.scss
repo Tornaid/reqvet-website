@@ -1,0 +1,64 @@
+.impactSection {
+    padding: 4rem 2rem;
+    text-align: center;
+    background: linear-gradient(180deg, #00d17d 0%, #66ff75 100%, #ffffff 100%);
+  
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: #222222bb;
+    }
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .card {
+    background: white;
+    width: 300px;
+    height: 300px;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    text-align: left;
+    transition: transform 0.3s ease;
+    border: 1px solid #eee;
+  
+    &:hover {
+      transform: translateY(-5px);
+    }
+  
+    h3 {
+      font-size: 1.2rem;
+      margin: 1rem 0 0.5rem;
+      color: #111;
+    }
+  
+    p {
+      font-size: 1rem;
+      margin-top: 40px;
+      color: #444;
+    }
+  }
+  
+  .icon {
+    color: #00b976;
+  }
+
+
+  @media screen and (max-width: 800px) {
+    .impactSection {
+      h2 {
+        font-size: 1.8rem;
+        margin-bottom: 3rem;
+        color: #222222bb;
+        text-align: left;
+      }
+    }
+  }
+  

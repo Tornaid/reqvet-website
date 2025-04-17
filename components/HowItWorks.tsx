@@ -1,74 +1,69 @@
 "use client";
+
 import styles from "@/components/styles/HowItWorks.module.scss";
 import Image from "next/image";
-import { useState } from "react";
-import ScrollFadeIn from "./animations/ScrollFadeIn";
+import { motion } from "framer-motion";
 
 const steps = [
   {
-    title: "1. Renseignez les infos et sélectionnez un modèle",
-    description:
-      "Indiquez le nom de l’animal, du propriétaire et choisissez le modèle de compte-rendu souhaité.",
     image: "/htw1.png",
+    alt: "Enregistrement",
+    title: "Enregistrer votre consultation",
+    description:
+      "Depuis votre téléphone, tablette ou PC, démarrez l’enregistrement actif de la consultation, ou dictez simplement vos notes à l’oral. Générez le compte-rendu à la fin de l’enregistrement.",
+    imageLeft: true,
   },
   {
-    title: "2. Démarrez votre consultation",
-    description:
-      "Démarrez l’enregistrement et conduisez votre consultation normalement, ou dictez vos remarques vocalement à mesure.",
     image: "/htw2.png",
+    alt: "Consultation",
+    title: "Votre compte-rendu en quelques minutes",
+    description:
+      "Vous pouvez le consulter, vérfier son contenu et le modifier à votre guise. Vous gardez le contrôle.",
+    imageLeft: false,
   },
   {
-    title: "3. Générez le compte-rendu en un clic",
-    description:
-      "Une fois la consultation terminée, cliquez pour obtenir un compte-rendu structuré en quelques minutes.",
     image: "/htw3.png",
+    alt: "Partage",
+    title: "Partager le compte-rendu",
+    description:
+      "Une fois terminé, vous pouvez transférer le compte-rendu directement par email, le télécharger en PDF ou le copier en un clic pour le transférer vers votre logiciel de gestion.",
+    imageLeft: true,
   },
 ];
 
 export default function HowItWorksSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-
   return (
-    <section id="outil" className={styles.section}>
-      <ScrollFadeIn>
-        <div className={styles.text}>
-          <h2>Comment ça marche ?</h2>
-          <p>
-            En enregistrant simplement vos consultations, notre outil se charge de
-            la transcrire et de générer automatiquement un compte-rendu complet et
-            structuré selon vos préférences, en quelques minutes.
-          </p>
-        </div>
-      </ScrollFadeIn>
-
-      <div className={styles.contentWrapper}>
-        <ScrollFadeIn>
-          <div className={styles.steps}>
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                className={`${styles.step} ${index === activeIndex ? styles.active : ""}`}
-                onClick={() => setActiveIndex(index)}
-              >
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-              </div>
-            ))}
-          </div>
-        </ScrollFadeIn>
-
-        <ScrollFadeIn>
-          <div className={styles.imageWrapper}>
+    <section className={styles.section}>
+      <div className={styles.header}>
+        <h2>Une automatisation en 3 étapes</h2>
+      </div>
+      {steps.map((step, index) => (
+        <motion.div
+          key={index}
+          className={`${styles.stepBlock} ${
+            step.imageLeft ? styles.left : styles.right
+          }`}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <div className={styles.image}>
             <Image
-              src={steps[activeIndex].image}
-              alt={`Étape ${activeIndex + 1}`}
-              width={500}
-              height={500}
-              quality={100}
+              src={step.image}
+              alt={step.alt}
+              width={600}
+              height={400}
+              className={styles.stepImage}
             />
           </div>
-        </ScrollFadeIn>
-      </div>
+
+          <div className={styles.text}>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        </motion.div>
+      ))}
     </section>
   );
 }

@@ -2,59 +2,62 @@
 
 import styles from './styles/NavBar.module.scss';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { Menu, X } from 'lucide-react';
+import { useState } from 'react';
 
 export default function NavBar() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <motion.nav
-      className={styles.nav}
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-    >
-      <motion.div className={styles.logo} initial={{ x: -30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.3 }}>
-        <Image src="/logo-reqvet-white.png" alt="ReqVet" width={130} height={40} />
-      </motion.div>
-
-      <motion.div
-        className={styles.menu}
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: {},
-          visible: {
-            transition: {
-              staggerChildren: 0.1,
-              delayChildren: 0.4,
-            },
-          },
-        }}
+    <>
+      <motion.nav
+        className={styles.nav}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
       >
-        {['Outil', 'Dogbot', 'Tarification'].map((label) => (
-          <motion.a
-            key={label}
-            href={`#${label.toLowerCase()}`}
-            className={styles.link}
-            variants={{
-              hidden: { opacity: 0, x: 20 },
-              visible: { opacity: 1, x: 0 },
-            }}
-          >
-            {label}
-          </motion.a>
-        ))}
+        <div className={styles.logo}>
+          <Link href="/">
+            <Image src="/logo-reqvet-white.png" alt="ReqVet" width={130} height={40} />
+          </Link>
+        </div>
 
-        <motion.a
-          href="https://app.reqvet.com"
-          className={styles.button}
-          variants={{
-            hidden: { opacity: 0, x: 20 },
-            visible: { opacity: 1, x: 0 },
-          }}
-        >
-          Connexion
-        </motion.a>
-      </motion.div>
-    </motion.nav>
+        <div className={styles.menu}>
+          {/* Menu desktop */}
+          <div className={styles.links}>
+            <Link href="/tarif" className={styles.link}>Tarif</Link>
+            <Link href="/contact" className={styles.link}>Contact</Link>
+            <a href="https://app.reqvet.com" className={styles.button}>Connexion</a>
+          </div>
+
+          {/* Burger icon (mobile only) */}
+          <button className={styles.burger} onClick={() => setIsOpen(true)}>
+            <Menu />
+          </button>
+        </div>
+      </motion.nav>
+
+      {/* Sidebar mobile */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.aside
+            className={styles.sidebar}
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'tween', duration: 0.3 }}
+          >
+            <button className={styles.close} onClick={() => setIsOpen(false)}>
+              <X />
+            </button>
+            <Link href="/tarif" className={styles.sidebarLink} onClick={() => setIsOpen(false)}>Tarif</Link>
+            <Link href="/contact" className={styles.sidebarLink} onClick={() => setIsOpen(false)}>Contact</Link>
+            <a href="https://app.reqvet.com" className={styles.sidebarButton} onClick={() => setIsOpen(false)}>Connexion</a>
+          </motion.aside>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
