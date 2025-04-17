@@ -5,8 +5,6 @@ import Header from '@/components/Header';
 import HowItWorks from '@/components/HowItWorks';
 import ImpactSection from '@/components/ImpactSection';
 import LegacySection from '@/components/LegacySection';
-import PricingSection from '@/components/PricingSection';
-import TemplatesSection from '@/components/TemplatesSection';
 import UseCases from '@/components/UseCases';
 
 

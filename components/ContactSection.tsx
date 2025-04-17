@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styles from '@/components/styles/ContactPage.module.scss';
 import { CheckCircle, AlertTriangle, Calendar, PawPrint } from 'lucide-react';
 import NavBar from '@/components/NavBar';
