@@ -134,8 +134,8 @@ export default function ContactPage() {
             <Calendar size={20} /> Prendre un rendez-vous
           </h3>
           <p>
-            Réservez un créneau de 30 min avec l'équipe. Nous discuterons de
-            votre besoin et répondrons à vos questions.
+            Réservez un créneau de 30 min avec l&apos;équipe. Nous discuterons
+            de votre besoin et répondrons à vos questions.
           </p>
           <a
             href="https://calendly.com/contact-reqvet/30min"

@@ -21,14 +21,12 @@ export default function Header() {
           <h2>
             Reqvet est un outil simple et rapide, qui simplifie votre quotidien
             en automatisant la rédaction de vos comptes-rendus de consultation.
-            Concentrez vous sur le soin, et rentrez chez vous à l'heure.
+            Concentrez-vous sur le soin, et rentrez chez vous à l&apos;heure.
           </h2>
           <a href="https://app.reqvet.com/signup" className={styles.cta}>
             Démarrez votre essai gratuit
           </a>
-          
         </motion.div>
-        
 
         {/* Version mobile du bouton + texte fixé en bas */}
         <div className={styles.ctaMobileContainer}>
@@ -36,7 +34,7 @@ export default function Header() {
             Démarrez votre essai gratuit
           </a>
           <p className={styles.ctaText}>
-            10 CR gratuits °
+            10 CR gratuits <br />
             Pas de CB requise
           </p>
         </div>
@@ -51,14 +49,6 @@ export default function Header() {
                 height={800}
                 priority
               />
-
-              {/* <Image
-                src="/demo-overlay.png"
-                alt="Interface consultation"
-                width={300}
-                height={400}
-                className={styles.overlay}
-              /> */}
             </div>
           </ScrollFadeIn>
         </div>
