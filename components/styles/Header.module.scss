@@ -1,55 +1,75 @@
 .header {
   position: relative;
   background: linear-gradient(180deg, #00d17d 0%, #66ff75 75%, #ffffff 87%);
-  padding-top: 20px;
   color: white;
   overflow: hidden;
-  height: 100vh;
+  min-height: 100vh;
+  padding-top: 20px;
+  max-width: 100vw;
 }
 
 .content {
   display: flex;
-  align-items: center;
   flex-direction: column;
   justify-content: center;
-  gap: 2rem;
-  padding: 4rem 2rem 2rem;
+  align-items: stretch;
+  padding: 4rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
-  text-align: center;
+  gap: 2rem;
 
-  .left {
-    flex: 1;
-  }
-
-  .right {
+  .leftTextBlock {
     flex: 1;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+  }
+
+  .rightImageBlock {
+    flex: 1;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+
+    .imageWrapper {
+      width: 100%;
+      max-width: 1400px;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
   }
 
   h1 {
     font-size: 3rem;
     font-weight: 800;
     margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
+
+    @media screen and (max-width: 800px) {
+      font-size: 1.8rem;
+      text-align: left;
+    }
   }
 
   h2 {
     font-size: 1.3rem;
-    margin-bottom: 2rem;
-    max-width: 1000px;
     font-weight: 500;
-  }
-
-  p {
-    font-size: 0.9rem;
-    margin: 20 auto;
+    width: 100%;
+    margin-bottom: 2rem;
     text-align: center;
-  }
 
-  .ctaMobile {
-    display: none;
+    @media screen and (max-width: 800px) {
+      font-size: 1rem;
+      text-align: left;
+    }
   }
+}
+
+.rightButtonBlock {
+  margin: 0 auto;
+
 
   .cta {
     background-color: white;
@@ -70,159 +90,150 @@
     }
   }
 
-  .ctaText {
-    margin-top: 0;
-    padding-top: 0;
+  @media screen and (min-width: 1024px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+
+    @media screen and (max-width: 650px) {
+      font-size: 2.2rem;
+    }
+
+    @media screen and (max-width: 500px) {
+      font-size: 2rem;
+      text-align: left;
+    }
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    max-width: 1000px;
+
+    @media screen and (max-width: 500px) {
+      font-size: 0.9rem;
+      text-align: left;
+      margin-bottom: 2rem;
+    }
+  }
+
+  p {
+    font-size: 0.9rem;
+    text-align: center;
   }
 }
 
+/* === CTA Bouton desktop === */
+.cta {
+  background-color: white;
+  color: #222;
+  font-weight: 600;
+  padding: 0.8rem 1.8rem;
+  min-width: 300px;
+  border-radius: 200px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
+  &:hover {
+    background-color: #f2f2f2;
+    transform: translateY(-5px);
+  }
+
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+}
+
+/* === CTA version mobile fixe en bas === */
+.ctaMobileContainer {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+  padding: 0 1rem;
+
+  @media screen and (min-width: 800px) {
+    display: none;
+  }
+}
+
+.ctaMobile {
+  background-color: white;
+  color: #222;
+  font-weight: 600;
+  padding: 0.9rem 2rem;
+  border-radius: 200px;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #f2f2f2;
+    transform: translateY(-3px);
+  }
+}
+
+.ctaText {
+  font-size: 0.9rem;
+  color: #222;
+  margin-top: 0.5rem;
+}
+
+/* === Image principale === */
 .imageWrapper {
-  position: relative;
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 0;
 
   img {
     max-width: 100%;
     height: auto;
     border-radius: 1rem;
-    border: none;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
   }
 
-  .overlay {
-    position: absolute;
-    right: 5%;
-    border: 2px solid rgba(128, 128, 128, 0.205);
-    bottom: -50px;
-    width: auto;
-    height: auto;
-    max-width: 300px;
-    border-radius: 1rem;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  @media screen and (max-width: 650px) {
+    display: none;
   }
 }
 
-@media screen and (max-width: 1024px) {
+/* === Image spéciale mobile === */
+.phoneImageWrapper {
+  display: none;
+  justify-content: center;
+  margin: 0 auto;
 
-  .header {
-    background: linear-gradient(165deg, #00d17d 0%, #66ff75 65%);
-  }
-  .imageWrapper {
-    .overlay {
-      max-width:25%;
-    }
-  }
-}
-
-@media screen and (max-width: 800px) {
-
-  .header {
-    height: 100vh;
-    position: relative;
-    background: linear-gradient(180deg, #00d17d 0%, #66ff75 85%, #ffffff 97%);
-  }
-  .content {
-    padding: 20px;
-  
-    .cta {
-      display: none; // on cache la version classique
-    }
-
-    .phoneImageWrapper {
-      display: none;
-      justify-content: center;
-      margin: 0 auto;
-    
-      @media screen and (max-width: 800px) {
-        display: flex;
-      }
-    }
-    
-    .phoneImage {
-      max-width: 100%;
-      height: auto;
-      
-      
-    }
-    
-  
-    .ctaMobileContainer {
-      position: absolute; // au lieu de fixed !
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      width: 100%;
-      padding: 0 1rem;
-    }
-  
-    .ctaMobile {
-      background-color: white;
-      color: #222;
-      font-weight: 600;
-      padding: 0.9rem 2rem;
-      border-radius: 200px;
-      text-decoration: none;
-      display: inline-block;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      transition: all 0.2s;
-  
-      &:hover {
-        background-color: #f2f2f2;
-        transform: translateY(-3px);
-      }
-    }
-  
-    .ctaText {
-      font-size: 0.9rem;
-      color: #222;
-      margin-top: 0.5rem;
-    }
-  }
-
-  
-}
-
-@media screen and (max-width: 650px) {
-  .header {
-    height: 65vh;
-  }
-
-  .content {
-    h1 {
-      font-size: 2.2rem;
-    }
-  }
-
-  .imageWrapper {
-    img {
-      display: none;
-    }
-    
+  @media screen and (max-width: 800px) {
+    display: flex;
   }
 }
 
-@media screen and (max-width: 500px) {
+.imageDesktop {
+  display: block;
 
-
-  .content {
-    h1 {
-      font-size: 2rem;
-      text-align: left;
-    }
-
-    h2 {
-      font-size: 0.9rem;
-      text-align: left;
-      margin-bottom: 2rem;
-      max-width: 1000px;
-      font-weight: 500;
-    }
-
-    p {
-      font-size: 0.9rem;
-    }
+  @media screen and (max-width: 800px) {
+    display: none;
   }
 }
+
+.imageMobile {
+  display: none;
+
+  @media screen and (max-width: 800px) {
+    display: block;
+    margin-top: 40px;
+  }
+}
+

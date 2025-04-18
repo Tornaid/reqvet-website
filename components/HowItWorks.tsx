@@ -8,7 +8,7 @@ const steps = [
   {
     image: "/htw1.png",
     alt: "Enregistrement",
-    title: "Enregistrer votre consultation",
+    title: "Enregistrez votre consultation",
     description:
       "Depuis votre téléphone, tablette ou PC, démarrez l’enregistrement actif de la consultation, ou dictez simplement vos notes à l’oral. Générez le compte-rendu à la fin de l’enregistrement.",
     imageLeft: true,
@@ -24,7 +24,7 @@ const steps = [
   {
     image: "/htw3.png",
     alt: "Partage",
-    title: "Partager le compte-rendu",
+    title: "Partagez le compte-rendu",
     description:
       "Une fois terminé, vous pouvez transférer le compte-rendu directement par email, le télécharger en PDF ou le copier en un clic pour le transférer vers votre logiciel de gestion.",
     imageLeft: true,
