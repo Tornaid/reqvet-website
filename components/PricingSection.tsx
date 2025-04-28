@@ -85,7 +85,7 @@ export default function PricingSection() {
               rel="noopener noreferrer"
             >
               <button className={styles.ctaButton}>
-                Bientôt disponible
+                Faire une demande
               </button>
             </a>
           </div>
