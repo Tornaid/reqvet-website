@@ -59,8 +59,8 @@ export default function Header() {
               <Image
                 src="/header-laptop-phone.png"
                 alt="Aperçu ReqVet Desktop"
-                width={1200}
-                height={800}
+                width={1400}
+                height={870}
                 priority
               />
             </div>
