@@ -1,6 +1,6 @@
 .header {
   position: relative;
-  background: linear-gradient(180deg, #00d17d 0%, #66ff75 75%, #ffffff 87%);
+  background: linear-gradient(165deg, #00d17d 0%, #66ff75 45%, #ffffff 57%);
   color: white;
   overflow: hidden;
   min-height: 100vh;
@@ -73,7 +73,7 @@
 
   .cta {
     background-color: white;
-    color: #222;
+    color: #222222bb;
     font-weight: 600;
     padding: 0.8rem 1.8rem;
     min-width: 300px;
@@ -188,7 +188,7 @@
 
 .ctaText {
   font-size: 0.9rem;
-  color: #222;
+  color: #222222bb;
   margin-top: 0.5rem;
 }
 

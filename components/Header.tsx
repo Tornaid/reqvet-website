@@ -25,9 +25,9 @@ export default function Header() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Reqvet est un outil simple et rapide, qui simplifie votre quotidien
-            en automatisant la rédaction de vos comptes-rendus de consultation.
-            Concentrez-vous sur le soin, et rentrez chez vous à l&apos;heure.
+            Reqvet est un outil simple et rapide, qui facilite votre quotidien
+            en automatisant la rédaction de vos comptes-rendus de consultation.<br/><strong>Concentrez-vous sur le soin, et rentrez chez vous à l&apos;heure.</strong>
+            
           </motion.h2>
 
           <motion.div

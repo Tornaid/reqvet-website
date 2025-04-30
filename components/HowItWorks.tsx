@@ -10,7 +10,7 @@ const steps = [
     alt: "Enregistrement",
     title: "Enregistrez votre consultation",
     description:
-      "Depuis votre téléphone, tablette ou PC, démarrez l’enregistrement actif de la consultation, ou dictez simplement vos notes à l’oral. Générez le compte-rendu à la fin de l’enregistrement.",
+      "Depuis votre téléphone, tablette ou PC, démarrez l’enregistrement actif de la consultation, ou prenez un moment au calme pour résumer à voix haute ce que vous souhaitez voir apparaître dans le compte rendu. Générez le compte-rendu à la fin de l’enregistrement.",
     imageLeft: true,
   },
   {

@@ -81,7 +81,7 @@ export default function PricingSection() {
             <p className={styles.subInfo}>Accès complet</p>
 
             <a
-              href="https://reqvet.com/tarif"
+              href="https://reqvet.com/contact"
               rel="noopener noreferrer"
             >
               <button className={styles.ctaButton}>

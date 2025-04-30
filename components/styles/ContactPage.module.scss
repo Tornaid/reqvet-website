@@ -3,19 +3,20 @@
     margin: 0 auto;
     padding-top: 20px;
     text-align: center;
-    background: linear-gradient(180deg, #00d17d 0%, #66ff75 25%, #ffffff 37%);
+    background: linear-gradient(165deg, #00d17d 0%, #66ff75 45%, #ffffff 57%);
 
   
     h1 {
       font-size: 2.5rem;
-      margin: 50px auto;
+      margin: 20px auto;
       color:white;
     }
   
     p {
       font-size: 1.1rem;
-      color: #555;
+      color:white;
       margin-bottom: 2.5rem;
+      font-weight: 600;
     }
   }
   
@@ -33,7 +34,7 @@
     background: #ffffff;
     padding: 2rem;
     border-radius: 1rem;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: left;
   
     label {
@@ -123,7 +124,7 @@
     padding: 2rem;
     border-radius: 1rem;
     text-align: center;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   
     h3 {
       font-size: 1.3rem;
