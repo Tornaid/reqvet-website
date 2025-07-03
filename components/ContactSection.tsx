@@ -129,7 +129,7 @@ export default function ContactPage() {
           )}
         </form>
 
-        <div className={styles.rdvBlock}>
+        {/* <div className={styles.rdvBlock}>
           <h3>
             <Calendar size={20} /> Prendre un rendez-vous
           </h3>
@@ -145,7 +145,7 @@ export default function ContactPage() {
           >
             Réserver un appel
           </a>
-        </div>
+        </div> */}
       </div>
     </section>
   );
