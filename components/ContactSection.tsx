@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import styles from "@/components/styles/ContactPage.module.scss";
-import { CheckCircle, AlertTriangle, Calendar, PawPrint } from "lucide-react";
+import { CheckCircle, AlertTriangle, PawPrint } from "lucide-react";
 import NavBar from "@/components/NavBar";
 import ScrollFadeIn from "@/components/animations/ScrollFadeIn";
 import toast from "react-hot-toast";
