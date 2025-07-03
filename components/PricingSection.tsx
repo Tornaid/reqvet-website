@@ -127,7 +127,7 @@ export default function PricingSection() {
                 <a href="mailto:contact@reqvet.com">contact@reqvet.com</a>
               </p>
 
-              <p>
+              {/* <p>
                 <strong>Réserver un appel :</strong>
                 <br />
                 Un échange de 30 min pour vous présenter ReqVet, répondre à vos
@@ -143,7 +143,7 @@ export default function PricingSection() {
                 <button className={styles.ctaButton}>
                   Réserver un rendez-vous
                 </button>
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
