@@ -23,8 +23,8 @@ ${message}
 `;
 
     const response = await resend.emails.send({
-      from: 'ReqVet <no-reply@reqvet.com>',
-      to: process.env.EMAIL_RECEIVER || 'hello@reqvet.com',
+      from: 'ReqVet <no-reply@reqvet.fr>',
+      to: process.env.EMAIL_RECEIVER || 'hello@reqvet.fr',
       subject: '📬 Nouveau message via le formulaire de contact',
       text: content,
     });
