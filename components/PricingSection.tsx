@@ -124,7 +124,7 @@ export default function PricingSection() {
                   strokeWidth={1.8}
                   style={{ marginRight: "8px" }}
                 />
-                <a href="mailto:contact@reqvet.com">contact@reqvet.com</a>
+                <a href="mailto:contact@reqvet.fr">contact@reqvet.fr</a>
               </p>
 
               {/* <p>
