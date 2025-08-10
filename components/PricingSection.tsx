@@ -15,14 +15,16 @@ export default function PricingSection() {
           <p>
             Les 10 premiers CR gratuits
             <PawPrint size={15} style={{ marginLeft: 10, marginRight: 10 }} />
-            Accès complet sans restrictions pour 29,40€ / mois
+            Accès complet sans restrictions
           </p>
           <a
             href="https://app.reqvet.com/signup"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <button className={styles.ctaButton}>Tester ReqVet gratuitement</button>
+            <button className={styles.ctaButton}>
+              Tester ReqVet gratuitement
+            </button>
           </a>
         </div>
       </ScrollFadeIn>
@@ -31,7 +33,7 @@ export default function PricingSection() {
         <div className={styles.container}>
           {/* Colonne de gauche : offre standard */}
           <div className={styles.standardOffer}>
-            <h3>Offre Cliniciens</h3>
+            <h3>Offre Cliniciens - Offre de lancement !</h3>
 
             <div className={styles.standardContent}>
               {/* Colonne gauche : fonctionnalités */}
@@ -45,11 +47,20 @@ export default function PricingSection() {
               {/* Colonne droite : prix + bouton */}
               <div className={styles.priceBlock}>
                 <div className={styles.priceBox}>
-                  <p className={styles.price}>29,40€ TTC / mois / clinicien</p>
-                  <p className={styles.subPrice}>24,50€ HT (TVA 20% applicable)</p>
+                  <p className={styles.oldPrice}>
+                    <s>44,40€ TTC</s>
+                  </p>
+                  <p className={styles.price}>34,80€ TTC / mois*</p>
+                  <p className={styles.subPrice}>29€ HT</p>
                 </div>
 
                 <div className={styles.cta}>
+                  <p>
+                    * Sur une période de <strong>6 mois</strong>, pour toute souscription
+                    antérieure au 30/11/2025. Passé ce délai, le tarif standard
+                    de 44,40€ TTC / mois s’appliquera automatiquement.
+                  </p>
+                  <br />
                   <p>
                     Obtenez 10 CR gratuits pour tester Reqvet, vous pourrez
                     souscrire par la suite.
@@ -62,7 +73,9 @@ export default function PricingSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <button className={styles.ctaButton}>Tester ReqVet gratuitement</button>
+                    <button className={styles.ctaButton}>
+                      Tester ReqVet gratuitement
+                    </button>
                   </a>
                 </div>
               </div>
@@ -70,7 +83,7 @@ export default function PricingSection() {
           </div>
 
           {/* Colonne de droite : offre étudiant */}
-          <div className={styles.studentOffer}>
+          {/* <div className={styles.studentOffer}>
             <h3>Offre Etudiants / Internes</h3>
             <p>
               Vous êtes étudiant ou interne en santé animale ? <br />
@@ -88,7 +101,7 @@ export default function PricingSection() {
                 Faire une demande
               </button>
             </a>
-          </div>
+          </div> */}
         </div>
       </ScrollFadeIn>
 
