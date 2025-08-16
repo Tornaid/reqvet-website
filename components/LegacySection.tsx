@@ -21,8 +21,8 @@ export default function LegacySection() {
           <li>Nous n’utilisons pas les données de vos consultations pour quelconque traitement</li>
           <li>Données chiffrées en transit et en stockage</li>
           <li>
-            Audios conservés 48h<br />
-            Comptes-rendus conservés 14 jours
+            Audios conservés 24h<br />
+            Comptes-rendus conservés 30 jours
           </li>
         </ul>
 

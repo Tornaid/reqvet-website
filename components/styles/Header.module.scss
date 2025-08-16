@@ -1,6 +1,6 @@
 .header {
   position: relative;
-  background: linear-gradient(165deg, #00d17d 0%, #66ff75 45%, #ffffff 57%);
+  background: linear-gradient(180deg, #00d17d 0%, #66ff75 30%, #ffffff 37%);
   color: white;
   overflow: hidden;
   min-height: 100vh;
@@ -74,19 +74,20 @@
   .cta {
     background-color: white;
     color: #222222bb;
-    font-weight: 600;
+    font-weight: 800;
     padding: 0.8rem 1.8rem;
     min-width: 300px;
     border-radius: 200px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    transition: all 0.2s;
+    transition: all 0.2s ease-in-out;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
     &:hover {
-      background-color: #f2f2f2;
-      transform: translateY(-5px);
+      transform: translateY(2px);
+      box-shadow: none;
+      background-color: #ffffff;
     }
   }
 
