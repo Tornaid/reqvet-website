@@ -4,6 +4,7 @@ import ScrollFadeIn from "./animations/ScrollFadeIn";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
 import styles from "./styles/AboutSection.module.scss";
+import Image from "next/image";
 import { Sparkles, HeartHandshake, Share2 } from "lucide-react";
 
 // URLs validées
@@ -23,45 +24,50 @@ export default function AboutSection() {
       <ScrollFadeIn>
         <div className={styles.mission}>
           <div className={styles.leftPart}>
-            <h2>L'Equipe ReqVet</h2>
+            <h2>L&rsquo;équipe Reqvet</h2>
           </div>
         </div>
       </ScrollFadeIn>
 
       {/* ————————————————— Équipe / avatars ————————————————— */}
       <ScrollFadeIn>
-        <div className={styles.avatar} aria-label="Équipe fondatrice de Reqvet">
+        <div className={styles.avatar} aria-label="L&rsquo;équipe fondatrice de Reqvet">
           <div className={styles.avatarList}>
             <div className={styles.avatarSandra}>
-              <img
+              <Image
                 className={styles.avatarImg}
                 src="/sandra.jpg"
                 alt="Sandra — Cofondatrice, vétérinaire et autrice d’une thèse sur l’automatisation des comptes rendus vétérinaires"
-                loading="lazy"
+                width={220}
+                height={220}
+                sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 220px"
+                priority
               />
               <p className={styles.name}>Sandra</p>
-              <p className={styles.description}>
-                Cofondatrice &amp; Vétérinaire
-              </p>
+              <p className={styles.description}>Cofondatrice &amp; Vétérinaire</p>
             </div>
 
             <div className={styles.avatarSandra}>
-              <img
+              <Image
                 className={styles.avatarImg}
                 src="/alex.jpg"
                 alt="Alex — Cofondateur, ingénieur logiciel IA pour les cliniques et vétérinaires itinérants"
-                loading="lazy"
+                width={220}
+                height={220}
+                sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 220px"
               />
               <p className={styles.name}>Alex</p>
               <p className={styles.description}>Cofondateur &amp; Ingénieur</p>
             </div>
 
             <div className={styles.avatarSandra}>
-              <img
+              <Image
                 className={styles.avatarImg}
                 src="/requiem.jpg"
                 alt="Requiem — Mascotte et égérie de Reqvet, symbole de fiabilité et d’assistance"
-                loading="lazy"
+                width={220}
+                height={220}
+                sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 220px"
               />
               <p className={styles.name}>Requiem</p>
               <p className={styles.description}>Mascotte &amp; Égérie</p>
@@ -98,17 +104,17 @@ export default function AboutSection() {
                   vétérinaires, qui <strong>automatise la rédaction</strong> et
                   <strong> s’intègre</strong> naturellement au flux de travail.
                 </p>
-                <p>
-                  C’est ainsi qu’a démarré l’aventure <strong>Reqvet</strong>.
-                </p>
+                <p>C’est ainsi qu’a démarré l’aventure <strong>Reqvet</strong>.</p>
               </div>
             </div>
 
             <div className={styles.rightHistoryContainer}>
-              <img
+              <Image
                 src="/vetintech.jpg"
                 alt="Remise du Prix de thèse VetInTech 2025 pour les travaux à l’origine de Reqvet"
-                loading="lazy"
+                width={700}
+                height={468}
+                sizes="(max-width:1024px) 100vw, 700px"
               />
             </div>
           </div>
@@ -118,10 +124,12 @@ export default function AboutSection() {
         <div className={styles.goal}>
           <div className={styles.goalContainer}>
             <div className={styles.leftGoalContainer}>
-              <img
+              <Image
                 src="/mission.jpg"
                 alt="Assistant numérique Reqvet générant automatiquement un compte rendu de consultation vétérinaire"
-                loading="lazy"
+                width={700}
+                height={500}
+                sizes="(max-width:1024px) 100vw, 700px"
               />
             </div>
 
@@ -149,7 +157,7 @@ export default function AboutSection() {
                   </li>
                   <li>
                     <strong>Recentrer</strong> le temps médical sur l’essentiel&nbsp;:
-                    le soin, l’examen clinique et le lien avec l'animal et son propriétaire.
+                    le soin, l’examen clinique et le lien avec l&rsquo;animal et son propriétaire.
                   </li>
                   <li>
                     <strong>Préserver</strong> l’équilibre vie pro – vie perso
@@ -215,9 +223,11 @@ export default function AboutSection() {
                 <p className={styles.reqvetContentLeftText}>
                   <strong>Reqvet</strong> évolue avec le terrain. Vos retours
                   deviennent des fonctionnalités, vos idées nourrissent la
-                  feuille de route, vos contraintes guident nos choix. Ensemble,
-                  nous construisons un assistant <strong>utile, fiable</strong> et
-                  <strong> accessible à tous</strong>. Et parce que l’échange est au cœur de notre démarche, nous valorisons chaque retour et en faisons un levier d’amélioration continue au service du métier. Ensemble, nous construisons un assistant utile, fiable et accessible à tous.
+                  feuille de route, vos contraintes guident nos choix. Parce que
+                  l’échange est au cœur de notre démarche, nous valorisons chaque
+                  retour et en faisons un levier d’amélioration continue au
+                  service du métier. Ensemble, nous construisons un assistant{" "}
+                  <strong>utile, fiable</strong> et <strong>accessible à tous</strong>.
                 </p>
               </div>
             </div>
@@ -257,10 +267,12 @@ export default function AboutSection() {
               </div>
 
               <div className={styles.reqvetContentRightImg}>
-                <img
+                <Image
                   src="/requiem-pose.jpg"
                   alt="Requiem, l’égérie à l’origine du nom Reqvet, symbole d’assistance fiable"
-                  loading="lazy"
+                  width={700}
+                  height={468}
+                  sizes="(max-width:1024px) 100vw, 700px"
                 />
               </div>
             </div>

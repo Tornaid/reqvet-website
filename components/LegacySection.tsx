@@ -18,11 +18,14 @@ export default function LegacySection() {
       <div className={styles.content}>
         <ul className={styles.list}>
           <li>Conforme aux normes RGPD</li>
-          <li>Nous n’utilisons pas les données de vos consultations pour quelconque traitement autre que les fonctionnalités de l'outil</li>
+          <li>
+            Nous n’utilisons pas les données de vos consultations pour quelconque traitement
+            autre que les fonctionnalités de l&rsquo;outil
+          </li>
           <li>Données chiffrées en transit et en stockage</li>
           <li>
             Audios conservés 24h<br />
-            Comptes-rendus conservés jusqu'à 30 jours
+            Comptes-rendus conservés jusqu&rsquo;à 30 jours
           </li>
         </ul>
 
@@ -32,6 +35,7 @@ export default function LegacySection() {
             alt="Logo RGPD"
             width={300}
             height={200}
+            sizes="(max-width: 640px) 60vw, 300px"
           />
         </div>
       </div>
