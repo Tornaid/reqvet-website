@@ -15,7 +15,7 @@ export default function AboutSection() {
     <section
       id="a-propos"
       className={styles.section}
-      aria-label="À propos de Reqvet"
+      aria-label="À propos de Reqvet — assistant d’automatisation de comptes rendus vétérinaires"
     >
       <NavBar />
 
@@ -23,20 +23,20 @@ export default function AboutSection() {
       <ScrollFadeIn>
         <div className={styles.mission}>
           <div className={styles.leftPart}>
-            <h2>Qui sommes-nous&nbsp;?</h2>
+            <h2>L'Equipe ReqVet</h2>
           </div>
         </div>
       </ScrollFadeIn>
 
       {/* ————————————————— Équipe / avatars ————————————————— */}
       <ScrollFadeIn>
-        <div className={styles.avatar} aria-label="L'équipe Reqvet">
+        <div className={styles.avatar} aria-label="Équipe fondatrice de Reqvet">
           <div className={styles.avatarList}>
             <div className={styles.avatarSandra}>
               <img
                 className={styles.avatarImg}
                 src="/sandra.jpg"
-                alt="Sandra — Cofondatrice et Vétérinaire"
+                alt="Sandra — Cofondatrice, vétérinaire et autrice d’une thèse sur l’automatisation des comptes rendus vétérinaires"
                 loading="lazy"
               />
               <p className={styles.name}>Sandra</p>
@@ -49,7 +49,7 @@ export default function AboutSection() {
               <img
                 className={styles.avatarImg}
                 src="/alex.jpg"
-                alt="Alex — Cofondateur et Ingénieur"
+                alt="Alex — Cofondateur, ingénieur logiciel IA pour les cliniques et vétérinaires itinérants"
                 loading="lazy"
               />
               <p className={styles.name}>Alex</p>
@@ -60,7 +60,7 @@ export default function AboutSection() {
               <img
                 className={styles.avatarImg}
                 src="/requiem.jpg"
-                alt="Requiem — Mascotte et Égérie"
+                alt="Requiem — Mascotte et égérie de Reqvet, symbole de fiabilité et d’assistance"
                 loading="lazy"
               />
               <p className={styles.name}>Requiem</p>
@@ -74,31 +74,32 @@ export default function AboutSection() {
           <div className={styles.historyContainer}>
             <div className={styles.leftHistoryContainer}>
               <div className={styles.leftHistoryContent}>
-                <h3>Pour l’histoire…</h3>
+                <h3>Notre histoire</h3>
                 <p>
-                  Reqvet est né d’un constat fait par Sandra au fil de ses
-                  stages et remplacements&nbsp;: la charge administrative des
-                  comptes rendus pèse lourdement sur le quotidien des
-                  vétérinaires. Elle a choisi d’en faire le sujet central de sa{" "}
-                  <strong>thèse</strong>, en y consacrant un travail approfondi.
+                  <strong>Reqvet</strong> est né d’un constat de terrain&nbsp;:
+                  la rédaction des <strong>comptes rendus de consultation</strong> et la paperasse
+                  pèsent lourdement sur le quotidien des vétérinaires — en
+                  clinique, en itinérance et en référé. Au fil de ses stages et
+                  remplacements, <strong>Sandra</strong> a mesuré l’ampleur de
+                  cette charge et en a fait le sujet central de sa{" "}
+                  <strong>thèse</strong>, avec une analyse approfondie des besoins
+                  métiers et des pistes d’<em>automatisation</em>.
                 </p>
                 <br />
                 <p>
-                  Ce travail, consultable sur{" "}
+                  Ce travail, consultable{" "}
                   <a href={THESIS_URL} target="_blank" rel="noreferrer">
-                    ce lien
+                    ici
                   </a>
-                  , a été récompensé par le{" "}
-                  <strong>Prix de thèse VetInTech 2025</strong>, décerné par un
-                  jury composé d’acteurs majeurs du secteur (Agria, VetoNetwork,
-                  Royal Canin, Fovea, Alcyon et Chêne Vert). De cette base
-                  solide est née une conviction&nbsp;: créer un outil pensé{" "}
-                  <em>par</em> et <em>pour</em> les vétérinaires, qui allège
-                  vraiment le quotidien.
+                  , a reçu le <strong>Prix de thèse VetInTech 2025</strong> (Agria,
+                  VetoNetwork, Royal Canin, Fovea, Alcyon, Chêne Vert). À partir
+                  de cette base robuste est née une conviction claire&nbsp;: créer un
+                  <strong> assistant numérique</strong> pensé <em>par</em> et <em>pour</em> les
+                  vétérinaires, qui <strong>automatise la rédaction</strong> et
+                  <strong> s’intègre</strong> naturellement au flux de travail.
                 </p>
                 <p>
-                  C’est ainsi que l’aventure <strong>Reqvet</strong> a vu le
-                  jour.
+                  C’est ainsi qu’a démarré l’aventure <strong>Reqvet</strong>.
                 </p>
               </div>
             </div>
@@ -106,7 +107,7 @@ export default function AboutSection() {
             <div className={styles.rightHistoryContainer}>
               <img
                 src="/vetintech.jpg"
-                alt="Remise du prix VetInTech 2025"
+                alt="Remise du Prix de thèse VetInTech 2025 pour les travaux à l’origine de Reqvet"
                 loading="lazy"
               />
             </div>
@@ -118,8 +119,8 @@ export default function AboutSection() {
           <div className={styles.goalContainer}>
             <div className={styles.leftGoalContainer}>
               <img
-                src="/mission.png"
-                alt="Aperçu de l'assistant numérique Reqvet en action"
+                src="/mission.jpg"
+                alt="Assistant numérique Reqvet générant automatiquement un compte rendu de consultation vétérinaire"
                 loading="lazy"
               />
             </div>
@@ -128,29 +129,33 @@ export default function AboutSection() {
               <div className={styles.rightGoalContent}>
                 <h3>Notre mission</h3>
                 <p>
-                  Offrir aux vétérinaires un assistant numérique qui
-                  <br />
+                  Offrir aux vétérinaires un <strong>outil d’automatisation
+                  des comptes rendus</strong> qui{" "}
                   <strong>apaise</strong> plutôt qu’il n’ajoute,&nbsp;
                   <strong>simplifie</strong> plutôt qu’il ne surcharge,&nbsp; et{" "}
                   <strong>s’intègre</strong> plutôt qu’il ne s’impose.
                 </p>
                 <ul>
                   <li>
-                    Automatiser la rédaction des comptes rendus de
-                    consultations.
-                  </li>
-                  <li>Faire gagner de précieuses heures chaque semaine.</li>
-                  <li>Réduire la fatigue cognitive et la charge mentale.</li>
-                  <li>
-                    Permettre de se concentrer sur l’essentiel&nbsp;: le soin et
-                    le lien.
+                    <strong>Automatiser</strong> la rédaction des comptes rendus
+                    de consultations (canine, féline, NAC, rurale, équine...).
                   </li>
                   <li>
-                    Préserver l’équilibre vie pro – vie perso, sans sacrifier le
-                    suivi patient.
+                    <strong>Gagner de précieuses heures</strong> chaque semaine.
+                  </li>
+                  <li>
+                    <strong>Réduire</strong> la fatigue cognitive et la charge
+                    administrative.
+                  </li>
+                  <li>
+                    <strong>Recentrer</strong> le temps médical sur l’essentiel&nbsp;:
+                    le soin, l’examen clinique et le lien avec l'animal et son propriétaire.
+                  </li>
+                  <li>
+                    <strong>Préserver</strong> l’équilibre vie pro – vie perso
+                    sans compromettre le <em>suivi patient</em>.
                   </li>
                 </ul>
-                
               </div>
             </div>
           </div>
@@ -171,10 +176,13 @@ export default function AboutSection() {
                 </h4>
                 <p className={styles.reqvetContentLeftText}>
                   Le quotidien vétérinaire est déjà un marathon&nbsp;: urgences,
-                  appels, suivis, paperasse… Alors Reqvet a été pensé pour{" "}
-                  <em>s’effacer</em>. Une interface claire et une prise en main
-                  en quelques minutes. Moins de clics, moins de friction, plus
-                  de soin. L’outil s’adapte à vos habitudes, pas l’inverse.
+                  appels, suivis, dossiers. <strong>Reqvet</strong> a été conçu
+                  pour <em>s’effacer</em>&nbsp;: une interface claire, une prise
+                  en main en quelques minutes et des <strong>comptes rendus
+                  générés automatiquement</strong>. Moins de clics, moins de
+                  friction, plus de soin. L’outil s’adapte à vos habitudes,
+                  en <strong>clinique vétérinaire</strong> comme en{" "}
+                  <strong>itinérance</strong>.
                 </p>
 
                 <h4 className={styles.valueTitle}>
@@ -185,19 +193,16 @@ export default function AboutSection() {
                 </h4>
                 <p className={styles.reqvetContentLeftText}>
                   Derrière chaque dossier, il y a une histoire, un animal, une
-                  famille, un·e vétérinaire. Avec <strong>Reqvet</strong>, notre
-                  mission est de réduire le poids des comptes-rendus et de la
-                  charge administrative, pour rendre le quotidien plus serein et
-                  préserver l’équilibre entre vie professionnelle et
-                  personnelle. Parce qu’un·e vétérinaire plus disponible et plus
-                  apaisé·e, c’est un soin de meilleure qualité pour chaque
-                  animal. Et parce que l’accès aux soins compte pour tous, nous
-                  reversons <strong>1&nbsp;€ par abonnement</strong> chaque mois
-                  à{" "}
+                  famille, un·e vétérinaire. Avec <strong>Reqvet</strong>, nous
+                  allégeons la charge des comptes rendus et de
+                  l’administratif pour rendre le quotidien plus serein et
+                  <strong> améliorer la qualité de prise en charge</strong>.
+                  Parce que l’accès aux soins compte pour tous, nous reversons{" "}
+                  <strong>1&nbsp;€ par abonnement</strong> chaque mois à{" "}
                   <a href={VPT_URL} target="_blank" rel="noreferrer">
                     Vétérinaires Pour Tous
                   </a>
-                  , qui permet aux familles en difficulté de soigner leurs
+                  , afin d’aider les familles en difficulté à soigner leurs
                   animaux.
                 </p>
 
@@ -208,12 +213,11 @@ export default function AboutSection() {
                   Partage
                 </h4>
                 <p className={styles.reqvetContentLeftText}>
-                  Reqvet est né du terrain et évolue avec lui. Vos retours
-                  deviennent des fonctionnalités, vos idées nourrissent notre
-                  feuille de route, vos contraintes guident nos choix. On
-                  construit ensemble un assistant qui vous ressemble&nbsp;:
-                  utile, fiable, et profondément ancré dans la réalité du
-                  métier.
+                  <strong>Reqvet</strong> évolue avec le terrain. Vos retours
+                  deviennent des fonctionnalités, vos idées nourrissent la
+                  feuille de route, vos contraintes guident nos choix. Ensemble,
+                  nous construisons un assistant <strong>utile, fiable</strong> et
+                  <strong> accessible à tous</strong>. Et parce que l’échange est au cœur de notre démarche, nous valorisons chaque retour et en faisons un levier d’amélioration continue au service du métier. Ensemble, nous construisons un assistant utile, fiable et accessible à tous.
                 </p>
               </div>
             </div>
@@ -231,31 +235,31 @@ export default function AboutSection() {
               <div className={styles.reqvetContentLeft}>
                 <p className={styles.reqvetContentLeftText}>
                   Le nom <strong>Reqvet</strong> porte plusieurs sens.{" "}
-                  <strong>“Req”</strong> fait écho à <em>record</em>, la
-                  mémoire, la trace, l’assistance numérique, mais rend aussi
-                  hommage à <strong>Requiem</strong>, notre chien qui a inspiré
-                  le nom de ce projet.
+                  <strong>“Req”</strong> fait écho à <em>record</em> (la trace
+                  et la mémoire clinique), à l’<em>assistance numérique</em> et
+                  rend hommage à <strong>Requiem</strong>, le chien qui a
+                  inspiré ce projet dédié aux <strong>comptes rendus
+                  vétérinaires</strong>.
                 </p>
                 <br />
                 <p className={styles.reqvetContentLeftText}>
-                  Ancien chien d’assistance éduqué par Sandra dans le cadre de
-                  l’association Handi’Chiens, Requiem représente la fiabilité et
-                  le soutien : être là quand la charge devient trop lourde,
-                  alléger sans s’imposer, accompagner avec constance et
-                  discrétion.
+                  Ancien chien d’assistance éduqué par Sandra avec
+                  Handi’Chiens, Requiem incarne la fiabilité et le soutien&nbsp;:
+                  être présent quand la charge devient lourde, alléger sans
+                  s’imposer, accompagner avec constance et discrétion.
                 </p>
                 <br />
                 <p className={styles.reqvetContentLeftText}>
-                  C’est cet esprit que nous avons voulu insuffler à Reqvet : un
-                  assistant pensé pour réellement soutenir les vétérinaires, au
-                  bon moment.
+                  C’est cet esprit que nous insufflons à <strong>Reqvet</strong>&nbsp;:
+                  un assistant pensé pour <strong>faciliter le quotidien des
+                  vétérinaires</strong>, en clinique généraliste et en déplacement.
                 </p>
               </div>
 
               <div className={styles.reqvetContentRightImg}>
                 <img
-                  src="/handichien.jpg" // ← place ton image de Requiem ici
-                  alt="Requiem, l’égérie qui a inspiré le nom de Reqvet"
+                  src="/requiem-pose.jpg"
+                  alt="Requiem, l’égérie à l’origine du nom Reqvet, symbole d’assistance fiable"
                   loading="lazy"
                 />
               </div>

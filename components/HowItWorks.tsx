@@ -18,7 +18,7 @@ const steps = [
     alt: "Consultation",
     title: "Votre compte-rendu en quelques minutes",
     description:
-      "Vous pouvez le consulter, vérfier son contenu et le modifier à votre guise. Vous gardez le contrôle.",
+      "Vous pouvez le consulter, vérifier son contenu et le modifier à votre guise. Vous gardez le contrôle.",
     imageLeft: false,
   },
   {

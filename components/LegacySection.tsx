@@ -18,11 +18,11 @@ export default function LegacySection() {
       <div className={styles.content}>
         <ul className={styles.list}>
           <li>Conforme aux normes RGPD</li>
-          <li>Nous n’utilisons pas les données de vos consultations pour quelconque traitement</li>
+          <li>Nous n’utilisons pas les données de vos consultations pour quelconque traitement autre que les fonctionnalités de l'outil</li>
           <li>Données chiffrées en transit et en stockage</li>
           <li>
             Audios conservés 24h<br />
-            Comptes-rendus conservés 30 jours
+            Comptes-rendus conservés jusqu'à 30 jours
           </li>
         </ul>
 

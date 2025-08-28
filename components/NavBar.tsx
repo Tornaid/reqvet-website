@@ -27,7 +27,7 @@ export default function NavBar() {
         <div className={styles.menu}>
           {/* Menu desktop */}
           <div className={styles.links}>
-            {/* <Link href="/a-propos" className={styles.link}>A Propos</Link> */}
+            <Link href="/a-propos" className={styles.link}>Qui sommes-nous ?</Link>
             <Link href="/tarif" className={styles.link}>Tarif</Link>
             <Link href="/contact" className={styles.link}>Contact</Link>
             <a href="https://app.reqvet.com" className={styles.button}>Connexion</a>
