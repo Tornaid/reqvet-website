@@ -53,7 +53,7 @@ export default function NavBar() {
             <button className={styles.close} onClick={() => setIsOpen(false)}>
               <X />
             </button>
-            <Link href="/a-propos" className={styles.link}>Qui sommes-nous ?</Link>
+            <Link href="/a-propos" className={styles.sidebarLink}>Qui sommes-nous ?</Link>
             <Link href="/tarif" className={styles.sidebarLink} onClick={() => setIsOpen(false)}>Tarif</Link>
             <Link href="/contact" className={styles.sidebarLink} onClick={() => setIsOpen(false)}>Contact</Link>
             <a href="https://app.reqvet.com" className={styles.sidebarButton} onClick={() => setIsOpen(false)}>Connexion</a>

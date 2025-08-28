@@ -107,7 +107,11 @@
   .sidebarLink {
     color: #222;
     text-decoration: none;
-    font-size: 1.1rem;
+    box-shadow: 0 3 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 12PX;
+    font-size: 1rem;
+    text-align: left;
     font-weight: 500;
 
     &:hover {
@@ -120,7 +124,7 @@
     background: linear-gradient(165deg, #00d17d 0%, #66ff75 65%);
     color: #222;
     padding: 0.6rem 1.2rem;
-    border-radius: 200px;
+    border-radius: 12px;
     text-decoration: none;
     text-align: center;
     box-shadow: 0 4 10 rgba(0, 0, 0, 0.185);
