@@ -1,154 +1,101 @@
 /**
- * ============================================================
- *  REQVET PARTNER SDK v1
- *  ------------------------------------------------------------
- *  Ce SDK permet aux logiciels partenaires :
- *   - d’ouvrir le module ReqVet dans un iframe
- *   - de transmettre leur contexte (animal, consultation…)
- *   - de recevoir automatiquement le compte-rendu via callback
- *   - d’écouter des événements (start, ready, finish, error)
- *
- *  Sécurité :
- *    - jamais de données sensibles dans l'URL
- *    - tout est géré côté serveur ReqVet
- *
- *  Contact : contact@reqvet.com
- * ============================================================
+ * ReqVet Partner SDK – UMD / IIFE Version
+ * Compatible avec <script src="..."> dans tous les navigateurs
  */
 
-export const ReqVet = {
-  version: "1.5.0",
-  config: null,
-  iframeInstance: null,
-  events: {
-    onStart: null,
-    onReady: null,
-    onFinish: null,
-    onError: null,
-  },
+(function (global) {
+  const ReqVet = {
+    config: null,
 
-  /**
-   * Initialise le SDK avec la configuration ReqVet
-   */
-  init(options = {}) {
-    if (!options.callbackUrl) {
-      throw new Error("ReqVet SDK: callbackUrl est obligatoire.");
-    }
+    init(options = {}) {
+      this.config = {
+        animalName: options.animalName || "",
+        callbackUrl: options.callbackUrl || "",
+        partner: options.partner || "",
+        externalData: options.externalData || {},
+        iframeStyle:
+          options.iframeStyle ||
+          "width:100%;height:700px;border:none;border-radius:12px;",
+        endpoint: "https://app.reqvet.com/embedded/recorder",
 
-    this.config = {
-      animalName: options.animalName || "",
-      callbackUrl: options.callbackUrl,
-      partner: options.partner || "",
-      externalData: options.externalData || {},
-      endpoint: options.endpoint || "https://app.reqvet.com/embedded/recorder",
-      iframeStyle:
-        options.iframeStyle ||
-        "width:100%;height:700px;border:none;border-radius:14px;",
-    };
+        // Callbacks
+        onStart: options.onStart || null,
+        onReady: options.onReady || null,
+        onFinish: options.onFinish || null,
+        onError: options.onError || null,
+      };
+    },
 
-    // Enregistrer éventuels handlers
-    this.events.onStart = options.onStart || null;
-    this.events.onReady = options.onReady || null;
-    this.events.onFinish = options.onFinish || null;
-    this.events.onError = options.onError || null;
-
-    return this;
-  },
-
-  /**
-   * Construit l’URL envoyée à ReqVet
-   */
-  buildUrl() {
-    if (!this.config) {
-      throw new Error("ReqVet SDK: init() doit être appelé avant buildUrl().");
-    }
-
-    const params = new URLSearchParams({
-      animal_name: this.config.animalName,
-      callback_url: this.config.callbackUrl,
-    });
-
-    if (this.config.partner) {
-      params.set("partner", this.config.partner);
-    }
-
-    // Injecte tous les identifiants du partenaire (non obligatoires)
-    Object.entries(this.config.externalData).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        params.set(key, value);
+    buildUrl() {
+      if (!this.config) {
+        console.error("ReqVet SDK not initialized");
+        return;
       }
-    });
 
-    // Ajouter version du SDK (debugging)
-    params.set("sdk_version", this.version);
+      const params = new URLSearchParams();
 
-    return `${this.config.endpoint}?${params.toString()}`;
-  },
+      params.set("animal_name", this.config.animalName);
+      params.set("callback_url", this.config.callbackUrl);
 
-  /**
-   * Ouvre ReqVet dans une DIV : mount(container)
-   */
-  mount(containerSelector) {
-    const url = this.buildUrl();
+      if (this.config.partner) params.set("partner", this.config.partner);
 
-    const container =
-      typeof containerSelector === "string"
-        ? document.querySelector(containerSelector)
-        : containerSelector;
+      Object.entries(this.config.externalData).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          params.set(key, value);
+        }
+      });
 
-    if (!container) {
-      throw new Error(
-        `ReqVet SDK: Impossible de trouver le conteneur ${containerSelector}`
-      );
-    }
+      return `${this.config.endpoint}?${params.toString()}`;
+    },
 
-    // Empêche le double-montage
-    container.innerHTML = "";
+    openRecorder(target) {
+      const url = this.buildUrl();
+      if (!url) return;
 
-    const iframe = document.createElement("iframe");
-    iframe.src = url;
-    iframe.allow = "microphone";
-    iframe.style = this.config.iframeStyle;
-    iframe.loading = "lazy";
+      const container =
+        typeof target === "string" ? document.querySelector(target) : target;
 
-    container.appendChild(iframe);
-    this.iframeInstance = iframe;
-
-    // event : start
-    this._trigger("onStart");
-
-    // event : ready
-    iframe.onload = () => this._trigger("onReady");
-
-    return iframe;
-  },
-
-  /**
-   * Attache ReqVet à un bouton
-   */
-  attachToButton(buttonSelector, containerSelector) {
-    const button = document.querySelector(buttonSelector);
-    if (!button) {
-      throw new Error(
-        `ReqVet SDK: Impossible de trouver le bouton ${buttonSelector}`
-      );
-    }
-
-    button.addEventListener("click", () => {
-      this.mount(containerSelector);
-    });
-  },
-
-  /**
-   * En interne : gestion des events
-   */
-  _trigger(eventName, payload = null) {
-    if (typeof this.events[eventName] === "function") {
-      try {
-        this.events[eventName](payload);
-      } catch (err) {
-        console.error(`ReqVet SDK: erreur dans ${eventName}`, err);
+      if (!container) {
+        console.error(
+          "ReqVet SDK: impossible de trouver le container :",
+          target
+        );
+        return;
       }
-    }
-  },
-};
+
+      if (this.config.onStart) this.config.onStart();
+
+      const iframe = document.createElement("iframe");
+      iframe.src = url;
+      iframe.allow = "microphone";
+      iframe.style = this.config.iframeStyle;
+
+      iframe.onload = () => {
+        if (this.config.onReady) this.config.onReady();
+      };
+
+      container.innerHTML = ""; // clear previous
+      container.appendChild(iframe);
+
+      return iframe;
+    },
+
+    attachToButton(buttonSelector, containerSelector) {
+      const button = document.querySelector(buttonSelector);
+
+      if (!button) {
+        console.error(
+          `ReqVet SDK: impossible de trouver le bouton ${buttonSelector}`
+        );
+        return;
+      }
+
+      button.addEventListener("click", () => {
+        this.openRecorder(containerSelector);
+      });
+    },
+  };
+
+  // EXPOSE GLOBAL
+  global.ReqVet = ReqVet;
+})(window);
