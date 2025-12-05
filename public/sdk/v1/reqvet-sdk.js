@@ -6,13 +6,17 @@
 (function (global) {
   const ReqVet = {
     config: null,
+    iframeRef: null,
 
+    /**
+     * Initialise le SDK
+     */
     init(options = {}) {
       this.config = {
         animalName: options.animalName || "",
         callbackUrl: options.callbackUrl || "",
         partner: options.partner || "",
-        externalData: options.externalData || {},
+        externalData: options.externalData || {}, // 🔥 history, consultation_id, etc.
         iframeStyle:
           options.iframeStyle ||
           "width:100%;height:700px;border:none;border-radius:12px;",
@@ -26,6 +30,10 @@
       };
     },
 
+    /**
+     * Construit l'URL de base SANS transmettre l'historique
+     * (juste les infos non sensibles)
+     */
     buildUrl() {
       if (!this.config) {
         console.error("ReqVet SDK not initialized");
@@ -39,15 +47,15 @@
 
       if (this.config.partner) params.set("partner", this.config.partner);
 
-      Object.entries(this.config.externalData).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          params.set(key, value);
-        }
-      });
+      // ❌ NE PAS inclure externalData (trop volumineux / sensible)
+      // On enverra ça via postMessage
 
       return `${this.config.endpoint}?${params.toString()}`;
     },
 
+    /**
+     * Ouvre l’iframe ReqVet
+     */
     openRecorder(target) {
       const url = this.buildUrl();
       if (!url) return;
@@ -70,16 +78,35 @@
       iframe.allow = "microphone";
       iframe.style = this.config.iframeStyle;
 
+      this.iframeRef = iframe;
+
       iframe.onload = () => {
         if (this.config.onReady) this.config.onReady();
+
+        // 🔥 ENVOYER LES DONNÉES SENSIBLES APRÈS CHARGEMENT
+        iframe.contentWindow.postMessage(
+          {
+            type: "REQVET_EXTERNAL_DATA",
+            payload: {
+              animalName: this.config.animalName,
+              callbackUrl: this.config.callbackUrl,
+              partner: this.config.partner,
+              externalData: this.config.externalData, // history, consultation_id, animal_internal_ref
+            },
+          },
+          "*"
+        );
       };
 
-      container.innerHTML = ""; // clear previous
+      container.innerHTML = ""; // clear previous iframe
       container.appendChild(iframe);
 
       return iframe;
     },
 
+    /**
+     * Attache un bouton pour ouvrir ReqVet
+     */
     attachToButton(buttonSelector, containerSelector) {
       const button = document.querySelector(buttonSelector);
 
