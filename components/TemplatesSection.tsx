@@ -24,7 +24,7 @@ const templates: Template[] = [
   <p><strong>Raison de la visite :</strong>
   …</p>
 
-  <p><strong>Statut vaccinal :</strong>
+  <p><strong>Statut vaccinal </strong>
   …</p>
 
   <p><strong>Traitement anti-parasitaire :</strong><br/>
