@@ -98,7 +98,7 @@ export default function Footer() {
         <div className={styles.col}>
           <h4>Contact</h4>
           <p>
-            <a href="mailto:contact@reqvet.com">contact@reqvet.com</a>
+            <a href="mailto:contact@reqvet.fr">contact@reqvet.fr</a>
           </p>
         </div>
       </div>

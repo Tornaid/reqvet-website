@@ -30,7 +30,11 @@ $shadow-md: 0 12px 28px rgba(0,0,0,.12);
 .section {
   padding-top: 20px;
   text-align: center;
-  background: linear-gradient(180deg, $brand-from 0%, $brand-mid 10%, #ffffff 11%);
+  background: linear-gradient(
+    170deg,
+    #00d17d 0%,
+    #66ff75 15%,
+    #ffffff 16%);
   min-height: 100dvh;  /* évite les coupures sur mobile */
   width: 100%;
   margin: 0 auto;

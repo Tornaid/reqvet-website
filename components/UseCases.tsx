@@ -8,56 +8,57 @@ export default function UseCases() {
   return (
     <section className={styles.useCases}>
       <ScrollFadeIn>
-        <h2>Intégrez Reqvet dans votre routine</h2>
-        <p>
-          En consultation ou entre deux rendez-vous, ReqVet s’adapte à votre
-          rythme. Choisissez la méthode qui vous convient : <strong>enregistrement en
-          direct</strong> ou <strong>dictée différée</strong>.
-        </p>
+        <div className={styles.header}>
+          <h2>ReqVet s’intègre à votre quotidien</h2>
+          <p>
+            En consultation ou entre deux rendez-vous, ReqVet s’adapte à votre
+            rythme. Utilisez-le <strong>en temps réel</strong> ou en{" "}
+            <strong>dictée différée</strong>, selon votre organisation.
+          </p>
+        </div>
       </ScrollFadeIn>
 
       <div className={styles.cards}>
-        {/* CARD 1 */}
+        {/* ===== CAS 1 ===== */}
         <ScrollFadeIn>
           <div className={styles.card}>
-            <div className={styles.image}>
+            <div className={styles.imageWrapper}>
               <Image
                 src="/consult.png"
-                alt="Consultation en direct"
+                alt="Utilisation en consultation"
                 width={600}
                 height={400}
-                className={styles.img}
-                style={{ objectFit: "cover" }}
+                className={styles.image}
               />
-              <div className={styles.description}>
-                <h4>En direct pendant la consultation</h4>
+              <div className={styles.overlay}>
+                <h4>Pendant la consultation</h4>
                 <p>
-                  Utilisez ReqVet pendant l’échange avec le propriétaire pour
-                  générer un compte-rendu.
+                  Lancez l’enregistrement pendant l’échange avec le propriétaire.
+                  ReqVet structure automatiquement le compte-rendu à partir de
+                  vos propos.
                 </p>
               </div>
             </div>
           </div>
         </ScrollFadeIn>
 
-        {/* CARD 2 */}
+        {/* ===== CAS 2 ===== */}
         <ScrollFadeIn>
           <div className={styles.card}>
-            <div className={styles.image}>
+            <div className={styles.imageWrapper}>
               <Image
                 src="/dictee.png"
                 alt="Dictée après consultation"
                 width={600}
                 height={400}
-                className={styles.img}
-                style={{ objectFit: "cover" }}
+                className={styles.image}
               />
-              <div className={styles.description}>
-                <h4>En différé, à voix haute</h4>
+              <div className={styles.overlay}>
+                <h4>En différé, à votre rythme</h4>
                 <p>
-                  En fin de journée ou entre deux consultations, dictez simplement
-                  vos notes et souvenirs à l’oral. <br />
-                  Laissez ReqVet générer le compte-rendu pour vous.
+                  Entre deux consultations ou en fin de journée, dictez
+                  simplement vos notes à voix haute. ReqVet se charge du
+                  compte-rendu.
                 </p>
               </div>
             </div>

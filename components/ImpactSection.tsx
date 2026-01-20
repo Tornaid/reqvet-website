@@ -48,7 +48,7 @@ export default function ImpactSection() {
   return (
     <section className={styles.impactSection}>
       <ScrollFadeIn>
-        <h2>Faites la différence dès le premier jour </h2>
+        <h2>Sentez la différence dès le premier jour </h2>
       </ScrollFadeIn>
 
       <div className={styles.grid}>

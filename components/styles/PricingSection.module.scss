@@ -1,275 +1,204 @@
 .section {
-    padding-top: 20px;
-    text-align: center;
-    background: linear-gradient(180deg, #00d17d 0%, #66ff75 30%, #ffffff 37%);
-    min-height: 100vh;
-    max-width: 100vw;
-    margin:0 auto;
-  }
-  
-  .title {
-    margin-top: 30px;
-    margin-bottom: 50px;
+  padding-top: 20px;
+  background: linear-gradient(170deg, #00d17d 0%, #66ff75 45%, #ffffff 48%);
+  min-height: 100vh;
+  max-width: 100vw;
+}
 
-  
-    h2 {
-      font-size: 2.5rem;
-      color: white;
-      margin-bottom: 0.5rem;
-    }
-  
-    p {
-      color: white;
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
+/* ================= TITLE ================= */
+
+.title {
+  margin: 30px 0 50px;
+  text-align: center;
+
+  h2 {
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 0.5rem;
   }
 
-  .ctaButton {
-    margin-top: 1rem;
-        background: white;
-        color: #22222295;
-        font-weight: 600;
-        border: none;
-        padding: 0.8rem 2rem;
-        border-radius: 100px;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background 0.3s;
-        box-shadow: 0 4px 10px rgba(151, 151, 151, 0.425);
-        margin-bottom: 0px;
-
-  
-        &:hover {
-          background: linear-gradient(to bottom right, #66ff75, #00d17d);
-          color: white;
-        }
-
+  p {
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
   }
-  
-  .container {
-    display: flex;
-    max-width: 1400px;
-    margin: 0 auto;;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    flex-wrap: wrap;
-    margin-bottom: 3rem;
-    padding: 0 30px;  
-    > div {
-      flex: 1;
-      min-width: 280px;
-      background: white;
-      border-radius: 1rem;
-      padding: 2rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-  }
-  
-  .standardOffer {
-    text-align: left;
+}
+
+/* ================= CONTAINER ================= */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto 3rem;
+  padding: 0 30px;
+  flex-wrap: wrap;
+
+  > div {
+    flex: 1;
+    min-width: 280px;
     max-width: 800px;
-    min-height: 360px;
-  
-    h3 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      color: #222222bb;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(128, 128, 128, 0.226)
-    }
-  
-    .standardContent {
-      display: flex;
-      gap: 10px;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-  
-    .features {
-      flex: 1;
-      list-style: disc;
-      padding-left: 1.5rem;
-  
-      li {
-        margin-bottom: 0.8rem;
-        font-size: 1rem;
-        color: #444;
-      }
-    }
-  
-    .priceBlock {
-      flex: 1;
-      min-width: 260px;
-    }
-  
-    .priceBox {
-      margin-bottom: 1.5rem;
-  
-      .price {
-        font-size: 1.8rem;
-        font-weight: 600;
-        color: #00b976;
-      }
-  
-      .subPrice {
-        margin-top: 0.5rem;
-        font-size: 1rem;
-        color: #777;
-      }
-    }
-  
-    .cta {
-      p {
-        font-size: 1rem;
-        color: #444;
-        margin: 0.2rem 0;
-      }
-    }
-  }
-  
-  
-  .studentOffer {
-    text-align: left;
-    max-width: 800px;
-    min-height: 360px;
-    align-items:start;
-  
-    h3 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: #222222bb;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(128, 128, 128, 0.226)
-    }
-  
-    p {
-      font-size: 1rem;
-      color: #444;
-      margin-bottom: 1rem;
-    }
-  
-    .studentPrice {
-      font-size: 2rem;
-      font-weight: 600;
-      color: #00b976;
-      margin: 1rem 0 0.5rem;
-    }
-  
-    .subInfo {
-      font-size: 0.95rem;
-      color: #777;
-    }
-  
-    .studentButton {
-      margin-top: 1.5rem;
-      background: none;
-      color: #222222bb;
-      font-weight: 500;
-      border: 2px solid #00d17d67;
-      padding: 0.8rem 2rem;
-      border-radius: 10px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-  
-      &:hover {
-        background: linear-gradient(to bottom right, #66ff753d, #00d17d42);
-        transform: translateY(-5px);
-      }
-    }
-  }
-  
-
-  .clinicOffer {
-    padding: 20px 30px;
-    // box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 20px;
     background: white;
-    text-align: left;
-    max-width: 1400px;
-    margin: 0 auto;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
-  
-    .clinicTitle {
-      font-weight: 700;
-      font-size: 1.8rem;
-      color: #222222bb;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(128, 128, 128, 0.226);
-      margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* ================= OFFRE CLINICIENS ================= */
+
+.standardOffer {
+  text-align: left;
+
+  h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    color: #222222bb;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    padding-bottom: 10px;
+  }
+}
+
+.priceBox {
+  margin-bottom: 1.2rem;
+
+  .price {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #00b976;
+  }
+
+  .subPrice {
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 600;
+    color: #777;
+  }
+}
+
+/* ================= OFFRE ÉTUDIANT ================= */
+
+.studentOffer {
+  text-align: left;
+
+  h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    color: #222222bb;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    padding-bottom: 10px;
+  }
+}
+
+.textContent {
+  p {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+  }
+}
+
+.subInfo {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #00b976;
+}
+
+/* ================= CTA UNIFIÉ ================= */
+
+.pricingCta {
+  margin-top: auto;
+  padding-top: 1.5rem;
+
+  button {
+    align-self: flex-start;
+    background-color: #ffffff;
+    color: #065f46;
+    font-weight: 700;
+    border: none;
+    padding: 0.9rem 2.2rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    @media (max-width: 900px) {
+      align-self: stretch;
       text-align: center;
     }
-  
-    .clinicContent {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 40px;
-    }
-  
-    .clinicText,
-    .clinicContact {
-      flex: 1;
-      min-width: 280px;
-      text-align: justify;
-  
-      p {
-        font-size: 1rem;
-        color: #444;
-        margin-bottom: 1rem;
-        line-height: 1.6;
-      }
-  
-      a {
-        color: #00b976;
-        text-decoration: none;
-  
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  
-    .clinicButton {
-      margin-top: 1rem;
-      background: linear-gradient(to bottom right, #66ff753d, #00d17d42);
-      color: #22222295;
-      font-weight: 500;
-      border: none;
-      padding: 0.8rem 2rem;
-      border-radius: 10px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-  
-      &:hover {
-        transform: translateY(-5px);
-      }
-    }
   }
 
-  .secondTrialButton {
-      background: none;
-      color: #22222295;
-      font-weight: 500;
-      border: 2px solid #00d17d67;
-      padding: 0.8rem 2rem;
-      border-radius: 10px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-  
-      &:hover {
-        transform: translateY(-5px);
-        background: linear-gradient(to bottom right, #66ff753d, #00d17d42);
-      }
-  }
-  
-  
+  .outline {
+    background: white;
+    color: #065f46;
+    border: 2px solid #00d17d;
 
-  
+    &:hover {
+      background: linear-gradient(to bottom right, #66ff75, #00d17d);
+      color: white;
+    }
+  }
+}
+
+/* ================= CLINIC OFFER ================= */
+
+.clinicOffer {
+  background: white;
+  border-radius: 20px;
+  padding: 20px 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.clinicTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222222bb;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  padding-bottom: 10px;
+}
+
+.clinicContent {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.clinicText,
+.clinicContact {
+  flex: 1;
+  min-width: 280px;
+
+  p {
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.6;
+  }
+
+  a {
+    color: #00b976;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
