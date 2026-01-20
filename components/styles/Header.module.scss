@@ -65,11 +65,13 @@
   width: 100%;
   max-width: 520px;
   aspect-ratio: 1 / 1;
+  min-height: 320px; // 👈 indispensable
 
   img {
     object-fit: contain;
   }
 }
+
 
 /* ===============================
    TEXTE
