@@ -7,7 +7,7 @@ export default function FinalCTASection() {
     <section className={styles.finalCta}>
       <h2>Gagnez du temps dès aujourd’hui</h2>
       <p>
-        Inscrivez-vous et profitez de <strong>14 jours d'essais gratuits</strong>.
+        Inscrivez-vous et profitez de <strong>14 jours d&apos;essais gratuits</strong>.
         <br />
         Sans carte bancaire. Accès immédiat.
       </p>
