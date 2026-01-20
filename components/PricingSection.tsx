@@ -3,7 +3,7 @@
 import ScrollFadeIn from "./animations/ScrollFadeIn";
 import NavBar from "./NavBar";
 import styles from "./styles/PricingSection.module.scss";
-import { Mail, PawPrint, Phone } from "lucide-react";
+import { Mail, PawPrint } from "lucide-react";
 
 export default function PricingSection() {
   return (
