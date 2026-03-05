@@ -1,135 +1,190 @@
 // SdkPage.module.scss
-// Styles pour reqvet.com/sdk — aligné sur la DA du site.
+// SDK docs — version DA colorée (gradient + cards)
 
-// ─── Tokens ──────────────────────────────────────────────────────────────────
+// ─── Layout tokens (inspiré de ta DA) ─────────────────────────
 
-$brand:        #00d17d;
-$brand-mid:    #66ff75;
-$brand-dark:   #047857;
-$brand-darker: #065f46;
+$maxw: 1400px;
+$gap-xl: 5rem;
+$gap-lg: 3rem;
+$gap-md: 2rem;
+$gap-sm: 1rem;
 
-$fg-strong:    #1f2937;
-$fg-soft:      #374151;
-$fg-muted:     #6b7280;
+$fg-strong: #222;
+$fg-soft: #444;
+$muted: #6b7280;
 
-$white:        #ffffff;
-$bg-page:      #f9fafb;
-$bg-card:      #ffffff;
-$border:       rgba(0, 0, 0, 0.08);
-$border-green: rgba(0, 209, 125, 0.25);
+$white: #fff;
+$brand-from: #00d17d;
+$brand-mid: #66ff75;
 
-$shadow-sm:    0 4px 16px rgba(0, 0, 0, 0.07);
-$shadow-md:    0 10px 28px rgba(0, 0, 0, 0.10);
+$radius: 16px;
+$shadow-sm: 0 6px 20px rgba(0, 0, 0, 0.08);
+$shadow-md: 0 12px 28px rgba(0, 0, 0, 0.12);
 
-$radius-sm:    8px;
-$radius-md:    14px;
-$radius-lg:    20px;
-$radius-xl:    28px;
+$transition: 150ms ease;
 
+// Code area (dark)
+$code-bg: #080d09;
+$code-border: rgba(0, 0, 0, 0.18);
+$code-fg: #b8ddbf;
+
+// Borders for light UI
+$border-light: rgba(0, 0, 0, 0.08);
+$border-light-2: rgba(0, 0, 0, 0.12);
+
+$font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
 $font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-$font-mono: 'Fira Code', 'Cascadia Code', 'Consolas', ui-monospace, monospace;
 
-$content-width: 840px;
-$transition: 180ms ease;
+// ─── Mixins ──────────────────────────────────────────────────
 
-// ─── Base ─────────────────────────────────────────────────────────────────────
+@mixin container {
+  max-width: $maxw;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@mixin focus-ring($color: $brand-from) {
+  outline: 3px solid rgba($color, 0.25);
+  outline-offset: 2px;
+}
+
+@mixin card {
+  background: $white;
+  border: 1px solid $border-light;
+  border-radius: $radius;
+  box-shadow: $shadow-sm;
+}
+
+@mixin chip {
+  border-radius: 9999px;
+  border: 1px solid $border-light-2;
+  background: rgba($brand-from, 0.08);
+}
+
+// ─── Base ─────────────────────────────────────────────────────
 
 .page {
-  background: $bg-page;
-  color: $fg-strong;
   font-family: $font-sans;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+
+  /* DA colorée : gradient comme ton exemple */
+  background: linear-gradient(170deg, $brand-from 0%, $brand-mid 15%, #ffffff 16%);
+  width: 100%;
+  margin: 0 auto;
+
+  /* scope safe pour les liens */
+  a {
+    color: inherit;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
 }
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
+// ─── Hero ─────────────────────────────────────────────────────
 
 .hero {
-  background: linear-gradient(
-    170deg,
-    $brand   0%,
-    $brand-mid 45%,
-    $white   48%
-  );
-  padding: 80px 24px 72px;
-  position: relative;
-  overflow: hidden;
+  padding: 80px 0 40px;
 }
 
 .heroInner {
-  max-width: $content-width;
-  margin: 0 auto;
+  @include container;
   text-align: center;
-  position: relative;
+  display: grid;
+  gap: 14px;
 }
 
 .badge {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.80);
-  color: $brand-darker;
-  font-size: 11px;
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.20);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 4px 14px;
-  border-radius: 999px;
-  margin-bottom: 20px;
 }
 
 .heroTitle {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  line-height: 1.2;
+  margin: 0;
+  font-size: clamp(2rem, 1.3rem + 2.4vw, 3.2rem);
+  font-weight: 800;
+  color: $white;
   letter-spacing: -0.02em;
-  color: $brand-darker;
-  margin: 0 0 16px;
+  line-height: 1.08;
 }
 
 .heroSubtitle {
-  font-size: 1.05rem;
-  line-height: 1.65;
-  color: $fg-soft;
-  margin: 0 auto 36px;
-  max-width: 520px;
+  margin: 0 auto;
+  max-width: 68ch;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 16px;
+  line-height: 1.7;
+  opacity: 0.95;
 }
 
 .heroInstall {
-  max-width: 420px;
-  margin: 0 auto 32px;
+  width: min(560px, 100%);
+  margin: 8px auto 0;
 
-  :global(pre) {
-    font-size: 13px;
-    padding: 14px 20px;
+  /* CodeBlock (dark) mais dans le hero */
+  .codeBlock {
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
+  }
+
+  .codeBlock pre {
+    padding: 14px 18px;
+    font-size: 14px;
   }
 }
 
 .heroLinks {
   display: flex;
-  gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
 }
 
-// ─── Boutons ──────────────────────────────────────────────────────────────────
+// ─── Buttons ─────────────────────────────────────────────────
 
-.btnPrimary {
+.btnPrimary,
+.btnSecondary {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: $white;
-  color: $brand-darker;
-  font-size: 0.95rem;
-  font-weight: 700;
-  padding: 10px 24px;
-  border-radius: 999px;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: $radius;
   text-decoration: none;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-  transition: transform $transition, box-shadow $transition;
+  font-size: 14px;
+  font-weight: 700;
+  transition: transform $transition, box-shadow $transition, background $transition,
+    color $transition, border-color $transition;
+
+  &:focus-visible {
+    @include focus-ring();
+  }
+}
+
+.btnPrimary {
+  background: $white;
+  color: $fg-strong;
+  border: 1px solid rgba(255, 255, 255, 0.70);
+  box-shadow: $shadow-md;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+    transform: translateY(-1px);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.14);
   }
 
   &:active {
@@ -139,237 +194,241 @@ $transition: 180ms ease;
 }
 
 .btnSecondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: transparent;
-  color: $brand-darker;
-  font-size: 0.95rem;
-  font-weight: 600;
-  padding: 9px 22px;
-  border: 2px solid $brand-darker;
-  border-radius: 999px;
-  text-decoration: none;
-  transition: background $transition, color $transition;
+  background: rgba(255, 255, 255, 0.14);
+  color: $white;
+  border: 1px solid rgba(255, 255, 255, 0.45);
 
   &:hover {
-    background: rgba(6, 95, 70, 0.08);
+    background: rgba(255, 255, 255, 0.20);
+    border-color: rgba(255, 255, 255, 0.70);
+    transform: translateY(-1px);
   }
 }
 
-// ─── Contenu ──────────────────────────────────────────────────────────────────
+// ─── Content wrapper ─────────────────────────────────────────
 
 .content {
-  max-width: $content-width;
-  margin: 0 auto;
-  padding: 0 24px 80px;
+  @include container;
+  padding-top: 26px;
+  padding-bottom: 80px;
 }
 
-// ─── Toggle de langue ─────────────────────────────────────────────────────────
+// ─── Toggle ──────────────────────────────────────────────────
 
 .globalToggle {
   display: flex;
   align-items: center;
-  gap: 12px;
   justify-content: flex-end;
-  padding: 28px 0 4px;
+  gap: 10px;
+  margin-top: 16px;
 }
 
 .toggleLabel {
   font-size: 13px;
-  color: $fg-muted;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .langToggle {
-  display: flex;
-  background: $white;
-  border: 1px solid $border;
-  border-radius: $radius-md;
-  padding: 3px;
-  gap: 2px;
-  box-shadow: $shadow-sm;
+  display: inline-flex;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.40);
 
   button {
-    padding: 5px 14px;
-    border-radius: $radius-sm;
-    border: none;
+    border: 0;
     background: transparent;
-    color: $fg-muted;
+    color: rgba(255, 255, 255, 0.92);
+    padding: 7px 12px;
+    border-radius: 9999px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 700;
     cursor: pointer;
     transition: background $transition, color $transition;
     font-family: $font-sans;
 
     &:hover {
-      color: $fg-strong;
+      background: rgba(255, 255, 255, 0.20);
     }
 
-    &.active {
-      background: $brand;
-      color: $white;
-      font-weight: 700;
+    &:focus-visible {
+      @include focus-ring($white);
     }
   }
 }
 
-// ─── Sections ─────────────────────────────────────────────────────────────────
+/* Active state (class appliquée depuis TSX) */
+.active {
+  background: $white !important;
+  color: $fg-strong !important;
+}
+
+// ─── Sections (cards blanches) ───────────────────────────────
 
 .section {
-  padding: 56px 0 0;
+  margin-top: 22px;
+  @include card;
+  padding: clamp(1.1rem, 1.2rem + 0.8vw, 1.8rem);
+  text-align: left;
 }
 
 .sectionTitle {
-  font-size: 1.55rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  color: $fg-strong;
   margin: 0 0 8px;
+  color: $fg-strong;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 22px;
 }
 
 .sectionSubtitle {
-  font-size: 0.97rem;
-  line-height: 1.65;
-  color: $fg-muted;
-  margin: 0 0 28px;
-  max-width: 600px;
+  margin: 0 0 16px;
+  color: $fg-soft;
+  line-height: 1.85;
+  max-width: 85ch;
+  font-size: 15px;
 }
 
 .sectionNote {
+  margin-top: 14px;
+  color: $muted;
   font-size: 13px;
-  color: $fg-muted;
-  margin: 14px 0 0;
-  line-height: 1.6;
+  line-height: 1.75;
 
   code {
-    background: #f3f4f6;
-    border: 1px solid $border;
-    padding: 1px 6px;
-    border-radius: 4px;
     font-family: $font-mono;
     font-size: 12px;
-    color: $brand-dark;
+    padding: 2px 6px;
+    border-radius: 8px;
+    border: 1px solid $border-light-2;
+    background: rgba($brand-from, 0.10);
+    color: $fg-strong;
   }
 
   a {
-    color: $brand-dark;
+    color: $brand-from;
     text-decoration: underline;
     text-underline-offset: 3px;
 
     &:hover {
-      color: $brand-darker;
+      color: darken($brand-from, 6%);
+    }
+
+    &:focus-visible {
+      @include focus-ring();
     }
   }
 }
 
-// ─── Étapes ───────────────────────────────────────────────────────────────────
+// ─── Steps (dans une section) ────────────────────────────────
 
 .steps {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 19px;
-    top: 36px;
-    bottom: 36px;
-    width: 2px;
-    background: linear-gradient(to bottom, $brand, transparent);
-    opacity: 0.35;
-    pointer-events: none;
-  }
+  display: grid;
+  gap: 16px;
 }
 
 .step {
-  padding: 28px 0 28px 52px;
-  position: relative;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid $border;
-  }
+  border-radius: $radius;
+  border: 1px solid $border-light;
+  background: rgba(0, 0, 0, 0.015);
+  padding: 16px;
 }
 
 .stepHeader {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  margin-bottom: 16px;
-  margin-left: -52px;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 12px;
+  align-items: start;
+  margin-bottom: 12px;
 }
 
 .stepNumber {
-  flex-shrink: 0;
   width: 38px;
   height: 38px;
-  background: linear-gradient(135deg, $brand, $brand-mid);
-  color: $white;
-  font-size: 15px;
-  font-weight: 700;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 4px 12px rgba(0, 209, 125, 0.30);
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  color: $fg-strong;
+  background: linear-gradient(135deg, $brand-from 0%, $brand-mid 100%);
+  border: 4px solid rgba(255, 255, 255, 0.85);
+  box-shadow: $shadow-sm;
 }
 
 .stepTitle {
-  font-size: 1.05rem;
-  font-weight: 700;
+  margin: 0;
   color: $fg-strong;
-  margin: 0 0 4px;
-  line-height: 1.3;
-  padding-top: 8px;
+  font-weight: 800;
+  font-size: 16px;
 }
 
 .stepDesc {
-  font-size: 0.9rem;
-  line-height: 1.65;
-  color: $fg-muted;
-  margin: 0;
+  margin: 6px 0 0;
+  color: $fg-soft;
+  line-height: 1.75;
+  font-size: 14px;
 }
 
 .stepNote {
-  font-size: 13px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: $radius;
+  border: 1px solid $border-light;
+  background: rgba($brand-from, 0.06);
   color: $fg-soft;
-  background: rgba(0, 209, 125, 0.06);
-  border: 1px solid $border-green;
-  border-left: 3px solid $brand;
-  padding: 10px 14px;
-  border-radius: 0 $radius-sm $radius-sm 0;
-  margin: 12px 0 0;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.75;
 }
 
-// ─── Blocs de code ────────────────────────────────────────────────────────────
+.stepNoteRich {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: $radius;
+  border: 1px solid $border-light;
+  background: rgba($brand-from, 0.06);
+  color: $fg-soft;
+  font-size: 13px;
+  line-height: 1.75;
+
+  code {
+    font-family: $font-mono;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    border: 1px solid $border-light-2;
+    background: rgba($brand-from, 0.10);
+    color: $fg-strong;
+  }
+}
+
+// ─── Code block (dark) ───────────────────────────────────────
 
 .codeBlock {
   position: relative;
-  background: #f8f9fa;
-  border: 1px solid $border;
-  border-radius: $radius-md;
+  border-radius: $radius;
+  border: 1px solid $code-border;
+  background: $code-bg;
   overflow: hidden;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.10);
 
   pre {
     margin: 0;
-    padding: 20px 24px;
+    padding: 18px 18px;
     overflow-x: auto;
 
-    &::-webkit-scrollbar { height: 5px; }
-    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar {
+      height: 7px;
+    }
     &::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, 0.15);
-      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 9999px;
     }
 
     code {
       font-family: $font-mono;
       font-size: 13px;
-      line-height: 1.7;
-      color: #1e3a2f;
+      line-height: 1.75;
+      color: $code-fg;
       white-space: pre;
     }
   }
@@ -379,238 +438,405 @@ $transition: 180ms ease;
   position: absolute;
   top: 10px;
   right: 10px;
-  background: $white;
-  border: 1px solid $border;
-  color: $fg-muted;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.88);
   font-size: 12px;
-  font-weight: 500;
-  padding: 4px 12px;
-  border-radius: $radius-sm;
+  font-weight: 800;
+  padding: 7px 10px;
   cursor: pointer;
-  font-family: $font-sans;
-  transition: background $transition, color $transition, border-color $transition;
-  box-shadow: $shadow-sm;
-  z-index: 2;
+  transition: background $transition, transform $transition, border-color $transition;
 
   &:hover {
-    background: #f3f4f6;
-    color: $fg-strong;
-    border-color: rgba(0, 0, 0, 0.14);
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.28);
+  }
+
+  &:focus-visible {
+    @include focus-ring($brand-mid);
   }
 }
 
 .copied {
-  color: $brand-dark;
+  color: $brand-mid;
 }
 
-// ─── Grille "Purpose" ─────────────────────────────────────────────────────────
+// ─── Purpose grid ────────────────────────────────────────────
 
 .purposeGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 14px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+
+  > * {
+    min-width: 0;
+  }
 }
 
 .purposeCard {
-  background: $bg-card;
-  border: 1px solid $border;
-  border-radius: $radius-lg;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  box-shadow: $shadow-sm;
-  transition: transform $transition, box-shadow $transition;
+  @include card;
+  padding: 14px;
+  transition: transform $transition, box-shadow $transition, border-color $transition;
 
   &:hover {
-    transform: translateY(-3px);
+    transform: translateY(-1px);
     box-shadow: $shadow-md;
+    border-color: rgba($brand-from, 0.25);
   }
 
   strong {
-    font-size: 0.9rem;
-    font-weight: 700;
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 800;
     color: $fg-strong;
   }
 
   span {
-    font-size: 0.82rem;
-    color: $fg-muted;
-    line-height: 1.5;
+    display: block;
+    margin-top: 4px;
+    color: $muted;
+    font-size: 13px;
+    line-height: 1.6;
   }
 }
 
 .purposeKey {
+  @include chip;
+  width: fit-content;
+  padding: 4px 8px;
   font-family: $font-mono;
   font-size: 12px;
-  color: $brand-dark;
-  background: rgba(0, 209, 125, 0.10);
-  border: 1px solid $border-green;
-  padding: 2px 8px;
-  border-radius: 4px;
-  width: fit-content;
+  color: $fg-strong;
 }
 
-// ─── Tableau des événements ───────────────────────────────────────────────────
+// ─── Tables (events/methods) ──────────────────────────────────
 
-.eventsTable {
-  background: $bg-card;
-  border: 1px solid $border;
-  border-radius: $radius-lg;
-  overflow: hidden;
-  margin-bottom: 12px;
-  box-shadow: $shadow-sm;
-}
-
-.eventsHeader {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  background: #f3f4f6;
-  padding: 10px 20px;
-  border-bottom: 1px solid $border;
-  gap: 16px;
-
-  span {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: $fg-muted;
-  }
-}
-
-.eventsRow {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  padding: 14px 20px;
-  gap: 16px;
-  align-items: center;
-  border-bottom: 1px solid $border;
-  transition: background $transition;
-
-  &:last-child { border-bottom: none; }
-
-  &:hover { background: #f9fafb; }
-
-  span {
-    font-size: 0.88rem;
-    color: $fg-muted;
-    line-height: 1.5;
-  }
-}
-
-.eventName {
-  font-family: $font-mono;
-  font-size: 13px;
-  color: $brand-dark;
-  white-space: nowrap;
-}
-
-// ─── Tableau des méthodes ─────────────────────────────────────────────────────
-
+.eventsTable,
 .methodsTable {
-  background: $bg-card;
-  border: 1px solid $border;
-  border-radius: $radius-lg;
+  border-radius: $radius;
+  border: 1px solid $border-light;
   overflow: hidden;
-  margin-bottom: 12px;
-  box-shadow: $shadow-sm;
+  background: $white;
 }
 
+.eventsHeader,
 .methodsHeader {
   display: grid;
-  grid-template-columns: 320px 1fr;
-  background: #f3f4f6;
-  padding: 10px 20px;
-  border-bottom: 1px solid $border;
-  gap: 16px;
+  grid-template-columns: 260px 1fr;
+  gap: 14px;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.02);
+  border-bottom: 1px solid $border-light;
 
   span {
-    font-size: 11px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: $fg-muted;
+    letter-spacing: 0.06em;
+    color: $muted;
   }
 }
 
+.eventsRow,
 .methodsRow {
   display: grid;
-  grid-template-columns: 320px 1fr;
-  padding: 13px 20px;
-  gap: 16px;
-  align-items: center;
-  border-bottom: 1px solid $border;
-  transition: background $transition;
+  grid-template-columns: 260px 1fr;
+  gap: 14px;
+  padding: 12px 14px;
+  border-top: 1px solid $border-light;
 
-  &:last-child { border-bottom: none; }
-
-  &:hover { background: #f9fafb; }
+  &:hover {
+    background: rgba(0, 0, 0, 0.015);
+  }
 
   span {
-    font-size: 0.88rem;
-    color: $fg-muted;
+    color: $fg-soft;
+    font-size: 14px;
+    line-height: 1.7;
+    min-width: 0;
   }
 }
 
+.eventName,
 .methodName {
   font-family: $font-mono;
   font-size: 12.5px;
-  color: $fg-soft;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: $fg-strong;
 }
 
-// ─── CTA final ────────────────────────────────────────────────────────────────
+.methodsHeader,
+.methodsRow {
+  grid-template-columns: 340px 1fr;
+}
+
+// ─── Add-ons guide (toc/cards/callouts/faq) ───────────────────
+
+.subTitle {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 900;
+  color: $fg-strong;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  > * {
+    min-width: 0;
+  }
+}
+
+.card {
+  @include card;
+  padding: 16px;
+}
+
+.cardTitle {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 900;
+  color: $fg-strong;
+}
+
+.bullets {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  color: $fg-soft;
+  line-height: 1.85;
+
+  li {
+    margin: 6px 0;
+  }
+
+  code {
+    font-family: $font-mono;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    border: 1px solid $border-light-2;
+    background: rgba($brand-from, 0.10);
+    color: $fg-strong;
+  }
+}
+
+.spacer {
+  height: 12px;
+}
+
+.toc {
+  @include card;
+  padding: 14px;
+  margin-top: 12px;
+  text-align: left;
+}
+
+.tocTitle {
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $muted;
+  margin-bottom: 10px;
+}
+
+.tocLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tocLink {
+  @include chip;
+  padding: 6px 10px;
+  color: $fg-strong;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 800;
+  transition: transform $transition, background $transition, border-color $transition;
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: rgba($brand-from, 0.35);
+    background: rgba($brand-from, 0.12);
+  }
+
+  &:focus-visible {
+    @include focus-ring();
+  }
+}
+
+.callout,
+.calloutWarn,
+.calloutOk {
+  @include card;
+  padding: 12px 14px;
+  border-left: 5px solid rgba($brand-from, 0.95);
+  background: rgba($brand-from, 0.06);
+}
+
+.calloutWarn {
+  border-left-color: rgba(245, 158, 11, 0.95);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.calloutOk {
+  border-left-color: rgba($brand-mid, 0.95);
+  background: rgba($brand-mid, 0.06);
+}
+
+.calloutTitle {
+  font-weight: 900;
+  color: $fg-strong;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.calloutBody {
+  color: $fg-soft;
+  line-height: 1.85;
+  font-size: 13px;
+
+  code {
+    font-family: $font-mono;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    border: 1px solid $border-light-2;
+    background: rgba($brand-from, 0.10);
+    color: $fg-strong;
+  }
+
+  ul {
+    margin: 10px 0 0;
+    padding-left: 18px;
+  }
+
+  li {
+    margin: 6px 0;
+  }
+}
+
+.faq {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.faqItem {
+  @include card;
+  padding: 14px 16px;
+}
+
+.faqQ {
+  color: $fg-strong;
+  font-weight: 900;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.faqA {
+  color: $fg-soft;
+  line-height: 1.85;
+  font-size: 13px;
+
+  code {
+    font-family: $font-mono;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    border: 1px solid $border-light-2;
+    background: rgba($brand-from, 0.10);
+    color: $fg-strong;
+  }
+}
+
+// ─── CTA ─────────────────────────────────────────────────────
 
 .cta {
-  margin-top: 72px;
-  background: linear-gradient(135deg, $brand 0%, $brand-mid 100%);
-  border-radius: $radius-xl;
-  padding: 56px 40px;
+  margin-top: 32px;
   text-align: center;
+  @include card;
+  padding: clamp(1.4rem, 1.2rem + 1vw, 2.2rem);
+  background: linear-gradient(
+    135deg,
+    rgba($brand-from, 0.12) 0%,
+    rgba($brand-mid, 0.10) 55%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  border: 1px solid rgba($brand-from, 0.20);
 }
 
 .ctaTitle {
-  font-size: 1.75rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: $white;
-  margin: 0 0 12px;
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 900;
+  color: $fg-strong;
 }
 
 .ctaSubtitle {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.80);
-  margin: 0 0 32px;
-  line-height: 1.6;
+  margin: 0 0 16px;
+  color: $fg-soft;
+  line-height: 1.85;
 }
 
-// ─── Responsive ───────────────────────────────────────────────────────────────
+// ─── Responsive ──────────────────────────────────────────────
 
-@media (max-width: 700px) {
-  .hero { padding: 56px 20px 48px; }
-  .content { padding: 0 20px 60px; }
+@media (width <= 1024px) {
+  .purposeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
-  .eventsHeader,
-  .eventsRow {
+  .grid2 {
     grid-template-columns: 1fr;
   }
-  .eventsHeader span:last-child { display: none; }
+}
 
+@media (width <= 700px) {
+  .hero {
+    padding-top: 64px;
+  }
+
+  .globalToggle {
+    justify-content: flex-start;
+  }
+
+  .eventsHeader,
+  .eventsRow,
   .methodsHeader,
   .methodsRow {
     grid-template-columns: 1fr;
   }
-  .methodsHeader span:last-child { display: none; }
 
-  .purposeGrid { grid-template-columns: 1fr 1fr; }
-  .steps::before { display: none; }
-  .cta { padding: 40px 24px; }
+  .eventsHeader span:last-child,
+  .methodsHeader span:last-child {
+    display: none;
+  }
 }
 
-@media (max-width: 480px) {
-  .purposeGrid { grid-template-columns: 1fr; }
+@media (width <= 480px) {
+  .btnPrimary,
+  .btnSecondary {
+    width: 100%;
+  }
+
+  .langToggle {
+    width: 100%;
+
+    button {
+      flex: 1;
+    }
+  }
+
+  .purposeGrid {
+    grid-template-columns: 1fr;
+  }
 }
