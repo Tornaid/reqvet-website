@@ -23,10 +23,10 @@ $shadow-md: 0 12px 28px rgba(0, 0, 0, 0.12);
 
 $transition: 150ms ease;
 
-// Code area (dark)
-$code-bg: #080d09;
-$code-border: rgba(0, 0, 0, 0.18);
-$code-fg: #b8ddbf;
+// Code area (VS Code Dark+)
+$code-bg: #1e1e1e;
+$code-border: rgba(0, 0, 0, 0.40);
+$code-fg: #abb2bf;
 
 // Borders for light UI
 $border-light: rgba(0, 0, 0, 0.08);
@@ -401,7 +401,7 @@ $font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 }
 
-// ─── Code block (dark) ───────────────────────────────────────
+// ─── Code block (VS Code Dark+) ──────────────────────────────
 
 .codeBlock {
   position: relative;
@@ -409,18 +409,21 @@ $font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   border: 1px solid $code-border;
   background: $code-bg;
   overflow: hidden;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
 
   pre {
     margin: 0;
-    padding: 18px 18px;
+    padding: 16px 18px;
     overflow-x: auto;
 
     &::-webkit-scrollbar {
       height: 7px;
     }
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.03);
+    }
     &::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.15);
       border-radius: 9999px;
     }
 
@@ -430,13 +433,59 @@ $font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       line-height: 1.75;
       color: $code-fg;
       white-space: pre;
+
+      // ── Syntax tokens (global classes injectées via dangerouslySetInnerHTML) ──
+      :global(.tc)  { color: #6a9955; font-style: italic; }  // comment
+      :global(.tkw) { color: #569cd6; }                       // keyword
+      :global(.ts)  { color: #ce9178; }                       // string
+      :global(.tn)  { color: #b5cea8; }                       // number
+      :global(.tt)  { color: #4ec9b0; }                       // type / class
+      :global(.tf)  { color: #dcdcaa; }                       // function call
+      :global(.tv)  { color: #9cdcfe; }                       // variable / param
+      :global(.tp)  { color: #9cdcfe; }                       // property
+      :global(.to)  { color: #c586c0; }                       // operator keyword (typeof…)
     }
+  }
+}
+
+// ─── Code block header bar ────────────────────────────────────
+
+.codeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: #252526;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+  .codeHeaderDots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+    span {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+
+      &:nth-child(1) { background: #ff5f57; }
+      &:nth-child(2) { background: #febc2e; }
+      &:nth-child(3) { background: #28c840; }
+    }
+  }
+
+  .codeHeaderLabel {
+    font-family: $font-mono;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.40);
+    letter-spacing: 0.04em;
+    user-select: none;
   }
 }
 
 .copyBtn {
   position: absolute;
-  top: 10px;
+  top: 6px;
   right: 10px;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.18);

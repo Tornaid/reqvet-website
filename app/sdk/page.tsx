@@ -555,10 +555,131 @@ const custom = await reqvet.reformulateReport(jobId, {
   },
 };
 
+// ─── Syntax highlighter (VS Code Dark+) ──────────────────────
+
+function escHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+const KW = new Set([
+  'import','export','from','as','const','let','var','function','return',
+  'async','await','type','interface','class','extends','implements','new',
+  'this','true','false','null','undefined','if','else','for','while','do',
+  'try','catch','finally','throw','typeof','instanceof','of','in','default',
+  'case','switch','break','continue','void','delete','yield','static',
+  'super','readonly','enum','declare','abstract','private','protected',
+  'public','override',
+]);
+
+const OP_KW = new Set(['typeof','instanceof','void','delete','in','of','new','throw']);
+
+function highlight(code: string): string {
+  let out = '';
+  let i = 0;
+  const n = code.length;
+
+  while (i < n) {
+    // Line comment //
+    if (code[i] === '/' && code[i + 1] === '/') {
+      let j = i;
+      while (j < n && code[j] !== '\n') j++;
+      out += `<span class="tc">${escHtml(code.slice(i, j))}</span>`;
+      i = j;
+      continue;
+    }
+    // Block comment /* */
+    if (code[i] === '/' && code[i + 1] === '*') {
+      let j = i + 2;
+      while (j < n - 1 && !(code[j] === '*' && code[j + 1] === '/')) j++;
+      j = Math.min(j + 2, n);
+      out += `<span class="tc">${escHtml(code.slice(i, j))}</span>`;
+      i = j;
+      continue;
+    }
+    // Shell/env comment # at line start
+    if (code[i] === '#' && (i === 0 || code[i - 1] === '\n')) {
+      let j = i;
+      while (j < n && code[j] !== '\n') j++;
+      out += `<span class="tc">${escHtml(code.slice(i, j))}</span>`;
+      i = j;
+      continue;
+    }
+    // Template literal `...`
+    if (code[i] === '`') {
+      let j = i + 1;
+      while (j < n && code[j] !== '`') {
+        if (code[j] === '\\') j++;
+        j++;
+      }
+      j = Math.min(j + 1, n);
+      out += `<span class="ts">${escHtml(code.slice(i, j))}</span>`;
+      i = j;
+      continue;
+    }
+    // String " or '
+    if (code[i] === '"' || code[i] === "'") {
+      const q = code[i];
+      let j = i + 1;
+      while (j < n && code[j] !== q && code[j] !== '\n') {
+        if (code[j] === '\\') j++;
+        j++;
+      }
+      j = Math.min(j + 1, n);
+      out += `<span class="ts">${escHtml(code.slice(i, j))}</span>`;
+      i = j;
+      continue;
+    }
+    // Number
+    if (/\d/.test(code[i]) && (i === 0 || !/\w/.test(code[i - 1]))) {
+      let j = i;
+      while (j < n && /[\d.]/.test(code[j])) j++;
+      out += `<span class="tn">${escHtml(code.slice(i, j))}</span>`;
+      i = j;
+      continue;
+    }
+    // Identifier
+    if (/[a-zA-Z_$]/.test(code[i])) {
+      let j = i;
+      while (j < n && /\w/.test(code[j])) j++;
+      const word = code.slice(i, j);
+      let k = j;
+      while (k < n && (code[k] === ' ' || code[k] === '\t')) k++;
+
+      let cls: string;
+      if (OP_KW.has(word))       cls = 'to';
+      else if (KW.has(word))     cls = 'tkw';
+      else if (/^[A-Z]/.test(word)) cls = 'tt';
+      else if (code[k] === '(') cls = 'tf';
+      else                       cls = 'tv';
+
+      out += `<span class="${cls}">${escHtml(word)}</span>`;
+      i = j;
+      continue;
+    }
+    // Everything else
+    out += escHtml(code[i]);
+    i++;
+  }
+  return out;
+}
+
+function detectLabel(code: string): string {
+  const t = code.trimStart();
+  if (t.startsWith('#') && /\n[A-Z_]+=/.test(code)) return '.env';
+  if (/^npm |^yarn |^pnpm /.test(t)) return 'bash';
+  if (/:\s*(string|number|boolean|Promise|void|any)\b/.test(code)) return 'TypeScript';
+  return 'JavaScript';
+}
+
 // ─── UI components ────────────────────────────────────────────
 
 function CodeBlock({ code }: { code: string }) {
   const [copied, setCopied] = useState(false);
+  const label = useMemo(() => detectLabel(code), [code]);
+  const highlighted = useMemo(() => highlight(code), [code]);
 
   const copy = useCallback(() => {
     const doCopy = async () => {
@@ -583,16 +704,22 @@ function CodeBlock({ code }: { code: string }) {
 
   return (
     <div className={styles.codeBlock}>
+      <div className={styles.codeHeader}>
+        <div className={styles.codeHeaderDots}>
+          <span /><span /><span />
+        </div>
+        <span className={styles.codeHeaderLabel}>{label}</span>
+      </div>
       <button
         type="button"
         className={styles.copyBtn}
         onClick={copy}
         aria-label="Copier le code"
       >
-        {copied ? <span className={styles.copied}>Copie</span> : <span>Copier</span>}
+        {copied ? <span className={styles.copied}>Copié ✓</span> : <span>Copier</span>}
       </button>
       <pre>
-        <code>{code}</code>
+        <code dangerouslySetInnerHTML={{ __html: highlighted }} />
       </pre>
     </div>
   );
