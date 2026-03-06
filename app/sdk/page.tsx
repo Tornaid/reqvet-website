@@ -21,7 +21,9 @@ type SnippetKey =
   | 'fieldSchema'
   | 'regenerate'
   | 'amend'
-  | 'reformulate';
+  | 'reformulate'
+  | 'resellerOnboard'
+  | 'resellerManage';
 
 type Snippets = Record<SnippetKey, { ts: string; js: string }>;
 
@@ -633,6 +635,135 @@ const custom = await reqvet.reformulateReport(jobId, {
   customInstructions: "Version courte en bullet points, sans jargon médical.",
 });`,
   },
+
+  resellerOnboard: {
+    ts: `// lib/reseller.ts — singleton côté serveur avec votre clé revendeur
+import ReqVet from '@reqvet-sdk/sdk';
+
+// ⚠️ Clé REVENDEUR — distincte des clés cliniques, ne jamais mélanger
+export const reseller = new ReqVet(process.env.REQVET_RESELLER_KEY!, {
+  baseUrl: process.env.REQVET_BASE_URL,
+});
+
+// ─── Onboarder une nouvelle clinique ─────────────────────────────
+const result = await reseller.createOrganization({
+  name: 'Clinique du Parc',
+  contactEmail: 'contact@clinique-du-parc.fr',
+  externalId: 'votre_id_interne_4892', // votre ID — garantit l'idempotence
+  monthlyQuota: 500,                    // jobs/mois (défaut: 100, max: 10 000)
+  webhookUrl: 'https://votre-app.com/webhooks/reqvet',
+});
+
+// ⚠️ api_key et webhook_secret retournés UNE SEULE FOIS — stocker immédiatement !
+if (result.api_key) {
+  // Première création — conserver de façon sécurisée (vault, base chiffrée…)
+  await db.saveClinicCredentials({
+    orgId: result.organization.id,
+    apiKey: result.api_key,            // rqv_live_... (clé de la clinique)
+    webhookSecret: result.webhook_secret, // whsec_... (signature events sortants)
+  });
+} else {
+  // Idempotent : org déjà existante — récupérer la clé depuis votre propre stockage
+  const storedKey = await db.getApiKey(result.organization.id);
+}
+
+// La clinique utilise ensuite son propre client ReqVet (clé standard)
+const clinic = new ReqVet(result.api_key);
+const { system } = await clinic.listTemplates();
+const job = await clinic.createJob({
+  audioFile: path,
+  animalName: 'Luna',
+  templateId: system[0].id,
+  callbackUrl: 'https://votre-app.com/webhooks/reqvet',
+  metadata: { consultationId: 'CONSULT-001' },
+});`,
+    js: `// lib/reseller.js — singleton côté serveur avec votre clé revendeur
+import ReqVet from '@reqvet-sdk/sdk';
+
+// ⚠️ Clé REVENDEUR — distincte des clés cliniques, ne jamais mélanger
+export const reseller = new ReqVet(process.env.REQVET_RESELLER_KEY, {
+  baseUrl: process.env.REQVET_BASE_URL,
+});
+
+// ─── Onboarder une nouvelle clinique ─────────────────────────────
+const result = await reseller.createOrganization({
+  name: 'Clinique du Parc',
+  contactEmail: 'contact@clinique-du-parc.fr',
+  externalId: 'votre_id_interne_4892', // votre ID — garantit l'idempotence
+  monthlyQuota: 500,                    // jobs/mois (défaut: 100, max: 10 000)
+  webhookUrl: 'https://votre-app.com/webhooks/reqvet',
+});
+
+// ⚠️ api_key et webhook_secret retournés UNE SEULE FOIS — stocker immédiatement !
+if (result.api_key) {
+  await db.saveClinicCredentials({
+    orgId: result.organization.id,
+    apiKey: result.api_key,
+    webhookSecret: result.webhook_secret,
+  });
+}
+
+// La clinique utilise son propre client ReqVet avec sa clé
+const clinic = new ReqVet(result.api_key);
+const job = await clinic.createJob({
+  audioFile: path,
+  animalName: 'Luna',
+  templateId,
+  callbackUrl: 'https://votre-app.com/webhooks/reqvet',
+  metadata: { consultationId: 'CONSULT-001' },
+});`,
+  },
+
+  resellerManage: {
+    ts: `// ─── Lister les cliniques avec usage du mois ────────────────────
+const { organizations } = await reseller.listOrganizations();
+// organizations: [{ id, name, is_active, monthly_quota, usage: { jobs_this_month, quota_remaining } }]
+
+for (const org of organizations) {
+  console.log(\`\${org.name} — \${org.usage.jobs_this_month} jobs / quota \${org.monthly_quota}\`);
+}
+
+// ─── Détail d'une clinique ───────────────────────────────────────
+const org = await reseller.getOrganization(orgId);
+// { ...org, usage: { jobs_this_month: 42, quota_remaining: 458 } }
+
+// ─── Augmenter le quota ──────────────────────────────────────────
+await reseller.updateOrganization(orgId, { monthlyQuota: 1000 });
+
+// ─── Suspendre une clinique (révoque aussi ses clés API) ─────────
+await reseller.updateOrganization(orgId, { isActive: false });
+
+// ─── Réactiver ───────────────────────────────────────────────────
+await reseller.updateOrganization(orgId, { isActive: true });
+
+// ─── Mettre à jour le webhook ────────────────────────────────────
+await reseller.updateOrganization(orgId, {
+  webhookUrl: 'https://votre-app.com/webhooks/reqvet/v2',
+});
+
+// ─── Désactiver définitivement (soft delete — données conservées RGPD) ──
+await reseller.deactivateOrganization(orgId);
+// → { success: true, message: 'Organization and API keys deactivated' }`,
+    js: `// ─── Lister les cliniques avec usage du mois ────────────────────
+const { organizations } = await reseller.listOrganizations();
+
+for (const org of organizations) {
+  console.log(\`\${org.name} — \${org.usage.jobs_this_month} jobs / quota \${org.monthly_quota}\`);
+}
+
+// ─── Détail d'une clinique ───────────────────────────────────────
+const org = await reseller.getOrganization(orgId);
+
+// ─── Modifier le quota ───────────────────────────────────────────
+await reseller.updateOrganization(orgId, { monthlyQuota: 1000 });
+
+// ─── Suspendre / Réactiver ───────────────────────────────────────
+await reseller.updateOrganization(orgId, { isActive: false });
+await reseller.updateOrganization(orgId, { isActive: true });
+
+// ─── Désactiver définitivement (soft delete) ─────────────────────
+await reseller.deactivateOrganization(orgId);`,
+  },
 };
 
 // ─── Syntax highlighter (VS Code Dark+) ──────────────────────
@@ -898,6 +1029,12 @@ const METHODS = [
   { method: 'updateTemplate(id, updates)', desc: 'Met à jour un template existant' },
   { method: 'deleteTemplate(id)', desc: 'Supprime un template personnalisé' },
   { method: 'health()', desc: "Vérifie la disponibilité de l'API ReqVet" },
+  // ── Partner / Reseller (clé role='reseller' requise) ──
+  { method: 'listOrganizations()', desc: "🏢 Revendeur — liste toutes les cliniques provisionnées avec leur usage du mois" },
+  { method: 'createOrganization(params)', desc: "🏢 Revendeur — provisionne une clinique (génère sa clé API + webhook secret, idempotent via externalId)" },
+  { method: 'getOrganization(orgId)', desc: "🏢 Revendeur — détail et usage du mois d'une clinique" },
+  { method: 'updateOrganization(orgId, updates)', desc: "🏢 Revendeur — modifie quota, statut (suspend/réactive) ou webhook d'une clinique" },
+  { method: 'deactivateOrganization(orgId)', desc: "🏢 Revendeur — désactive une clinique et révoque ses clés API (soft delete, RGPD)" },
 ];
 
 const EVENTS = [
@@ -939,6 +1076,7 @@ export default function SdkPage() {
       { href: '#nextjs', label: 'Intégration Next.js' },
       { href: '#webhook-events', label: 'Événements webhook' },
       { href: '#methods', label: 'Référence des méthodes' },
+      { href: '#reseller', label: 'API Revendeur (multi-tenant)' },
       { href: '#faq', label: 'FAQ intégration' },
     ],
     [],
@@ -1115,22 +1253,22 @@ export default function SdkPage() {
             </div>
 
             <div className={styles.card}>
-              <h3 className={styles.cardTitle}>Multi-tenant et code source</h3>
+              <h3 className={styles.cardTitle}>API Revendeur — multi-tenant disponible</h3>
               <ul className={styles.bullets}>
                 <li>
-                  Le moteur ReqVet inclut déjà une architecture <strong>multi-tenant</strong>{' '}
-                  complète (gestion de plusieurs organisations/cliniques sous un même compte,
-                  isolation des données, quotas par org…).
+                  Le moteur ReqVet inclut une architecture <strong>multi-tenant</strong> complète,{' '}
+                  accessible dès maintenant via l'<strong>API Revendeur</strong> — une clé{' '}
+                  <code>REQVET_RESELLER_KEY</code> (role <code>reseller</code>) suffit.
                 </li>
                 <li>
-                  Cette fonctionnalité sera <strong>accessible lors de l'acquisition
-                  du code source complet</strong>. Durant la phase pilote, vous opérez
-                  avec un seul <code>org_id</code> et une seule clé API.
+                  Provisionnez, gérez et suspendez vos <strong>cliniques clientes</strong>{' '}
+                  programmatiquement : <code>createOrganization</code>,{' '}
+                  <code>listOrganizations</code>, <code>updateOrganization</code>…
                 </li>
                 <li>
-                  Objectif de la phase pilote : <strong>valider l'adoption</strong> et la
-                  pertinence de l'intégration sur un groupe pilote de cliniques, avant
-                  un déploiement plus large.
+                  Chaque clinique reçoit sa propre <strong>clé API isolée</strong> et son{' '}
+                  <code>webhook_secret</code>. Isolation des données garantie en base.{' '}
+                  Voir la <a href="#reseller">section dédiée</a> pour le guide complet.
                 </li>
               </ul>
             </div>
@@ -1510,6 +1648,117 @@ export default function SdkPage() {
           </div>
         </section>
 
+        {/* ── Reseller / Multi-tenant ───────────────────────── */}
+        <section id="reseller" className={styles.section}>
+          <h2 className={styles.sectionTitle}>API Revendeur — multi-tenant</h2>
+          <p className={styles.sectionSubtitle}>
+            Si vous intégrez ReqVet pour vos clients (cliniques), l'API Revendeur vous permet
+            de provisionner et gérer toutes vos cliniques de façon programmatique, avec une
+            seule <strong>clé revendeur</strong> (<code>REQVET_RESELLER_KEY</code>, role{' '}
+            <code>reseller</code>). Chaque clinique reçoit sa propre clé API isolée.
+          </p>
+
+          <div className={styles.grid2}>
+            <div className={styles.card}>
+              <h3 className={styles.cardTitle}>Deux types de clés — ne pas confondre</h3>
+              <ul className={styles.bullets}>
+                <li>
+                  <strong>Clé revendeur</strong> (<code>REQVET_RESELLER_KEY</code>) : permet
+                  uniquement de provisionner et administrer des cliniques. Jamais utilisée pour
+                  créer des jobs.
+                </li>
+                <li>
+                  <strong>Clé clinique</strong> (<code>rqv_live_...</code>) : retournée par{' '}
+                  <code>createOrganization</code>, utilisée par chaque clinique pour ses jobs.
+                  Isolée par <code>org_id</code>.
+                </li>
+                <li>
+                  Un revendeur <strong>ne peut accéder qu'à ses propres cliniques</strong> —
+                  isolation garantie en base (<code>parent_org_id</code>).
+                </li>
+              </ul>
+            </div>
+
+            <div className={styles.card}>
+              <h3 className={styles.cardTitle}>Ce que vous gérez via l'API</h3>
+              <ul className={styles.bullets}>
+                <li>
+                  <strong>Onboarder</strong> une clinique en un appel (<code>createOrganization</code>){' '}
+                  — idempotent via <code>externalId</code> (votre ID interne).
+                </li>
+                <li>
+                  <strong>Monitorer</strong> l'usage mensuel de chaque clinique{' '}
+                  (<code>jobs_this_month</code>, <code>quota_remaining</code>).
+                </li>
+                <li>
+                  <strong>Modifier</strong> le quota, <strong>suspendre</strong> ou{' '}
+                  <strong>réactiver</strong> une clinique via <code>updateOrganization</code>.
+                </li>
+                <li>
+                  <strong>Désactiver</strong> définitivement via <code>deactivateOrganization</code>{' '}
+                  (soft delete — données conservées pour le RGPD).
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <Callout title="⚠️ api_key et webhook_secret — one-time display" variant="warn">
+            <code>createOrganization</code> retourne <code>api_key</code> et{' '}
+            <code>webhook_secret</code> <strong>une seule fois</strong>, dans la réponse HTTP
+            initiale. Seul le hash SHA-256 de la clé est stocké côté serveur — il est impossible
+            de les récupérer après coup.
+            <br />
+            <strong>Stockez-les immédiatement</strong> dans votre vault ou base chiffrée, et
+            transmettez la clé à la clinique via un canal sécurisé (jamais par email en clair).
+            En cas de perte, la seule option est de désactiver l'org et d'en créer une nouvelle.
+          </Callout>
+
+          <div style={{ marginTop: '16px' }}>
+            <h3 className={styles.subTitle}>1) Onboarder une clinique</h3>
+            <CodeBlock code={SNIPPETS.resellerOnboard[lang]} />
+          </div>
+
+          <div style={{ marginTop: '16px' }}>
+            <h3 className={styles.subTitle}>2) Gérer les cliniques (quota, statut, usage)</h3>
+            <CodeBlock code={SNIPPETS.resellerManage[lang]} />
+          </div>
+
+          <Callout title="Variables d'environnement revendeur" variant="info">
+            Ajoutez dans votre <code>.env.local</code> :
+            <br />
+            <code>REQVET_RESELLER_KEY=rqv_live_...</code>
+            <br />
+            Cette variable est distincte de <code>REQVET_API_KEY</code>. Ne la mélangez pas avec
+            les clés cliniques — instanciez deux clients séparés si vous en avez besoin côté serveur.
+          </Callout>
+
+          <div className={styles.grid2} style={{ marginTop: '16px' }}>
+            <div className={styles.card}>
+              <h3 className={styles.cardTitle}>Idempotence via externalId</h3>
+              <p style={{ color: 'var(--fg-soft, #444)', fontSize: '13px', lineHeight: '1.75', margin: 0 }}>
+                Passez toujours <code>externalId</code> (votre ID clinique interne) à{' '}
+                <code>createOrganization</code>. Si la clinique existe déjà, l'org existante
+                est retournée sans doublon — sans <code>api_key</code> ni{' '}
+                <code>webhook_secret</code> (déjà stockés de votre côté). Idéal pour rendre
+                votre processus d'onboarding safe en cas de retry ou de double appel.
+              </p>
+            </div>
+
+            <div className={styles.card}>
+              <h3 className={styles.cardTitle}>Suspension vs Désactivation</h3>
+              <p style={{ color: 'var(--fg-soft, #444)', fontSize: '13px', lineHeight: '1.75', margin: 0 }}>
+                <strong>Suspension</strong> (<code>{'updateOrganization(id, { isActive: false })'}</code>) :
+                réversible — la clinique et ses clés sont désactivées, mais vous pouvez réactiver.
+                <br /><br />
+                <strong>Désactivation</strong> (<code>deactivateOrganization(id)</code>) :
+                irréversible dans le sens où les clés sont révoquées définitivement. Les données
+                (jobs, transcriptions) sont conservées pour le RGPD. Utilisez la suspension
+                pour les cas de non-paiement ou de gel temporaire.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* ── FAQ ─────────────────────────────────────────────── */}
         <section id="faq" className={styles.section}>
           <h2 className={styles.sectionTitle}>FAQ intégration</h2>
@@ -1519,21 +1768,22 @@ export default function SdkPage() {
               <div className={styles.faqQ}>Qu'est-ce que la phase pilote, concrètement ?</div>
               <div className={styles.faqA}>
                 La phase pilote permet de valider l'adoption de ReqVet et la pertinence de
-                l'intégration au sein de votre logiciel métier, sur un groupe pilote de cliniques.
-                Vous opérez avec <strong>une seule clé API</strong> (<code>REQVET_API_KEY</code>)
-                pour votre organisation. Le moteur est identique à la version complète — seul
-                le multi-tenant reste inaccessible jusqu'à l'acquisition du code source.
+                l'intégration au sein de votre logiciel métier. Vous démarrez avec une{' '}
+                <strong>clé API clinique</strong> (<code>REQVET_API_KEY</code>) pour vos premiers
+                jobs. Dès que vous souhaitez gérer plusieurs cliniques, une{' '}
+                <strong>clé revendeur</strong> (<code>REQVET_RESELLER_KEY</code>) est disponible
+                pour provisionner et administrer vos cliniques via l'API Revendeur — voir la{' '}
+                <a href="#reseller">section dédiée</a>.
               </div>
             </div>
 
             <div className={styles.faqItem}>
-              <div className={styles.faqQ}>Quand peut-on utiliser le multi-tenant ?</div>
+              <div className={styles.faqQ}>Comment fonctionne le multi-tenant / l'API Revendeur ?</div>
               <div className={styles.faqA}>
-                L'architecture multi-tenant est déjà en place dans le moteur ReqVet (isolation
-                par <code>org_id</code>, quotas par organisation, gestion de plusieurs
-                organisations sous un même compte). Elle sera <strong>accessible lors de
-                l'acquisition du code source complet</strong>. Durant la phase pilote, votre
-                organisation a un <code>org_id</code> fixe associé à votre clé API.
+                L'API Revendeur est disponible dès maintenant. Avec une clé <code>REQVET_RESELLER_KEY</code>{' '}
+                (role <code>reseller</code>), vous pouvez provisionner et gérer vos cliniques clientes
+                programmatiquement. Chaque clinique reçoit sa propre clé API et son isolation de données.
+                Voir la <a href="#reseller">section dédiée</a> pour le guide complet et les exemples de code.
               </div>
             </div>
 
