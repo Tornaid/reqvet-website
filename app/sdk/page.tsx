@@ -109,24 +109,52 @@ const templateId = (system[0] ?? custom[0]).id;
   upload: {
     ts: `// Étape 1 : uploader le fichier audio de la consultation
 // Formats supportés : mp3, wav, webm, ogg, m4a, aac, flac
-// Taille max : selon config org (généralement 200 MB)
-const upload = await reqvet.uploadAudio(audioFile, 'consultation.mp3');
+//
+// ⚠️  N'utilisez PAS reqvet.uploadAudio() côté serveur (Vercel / Serverless) :
+//     /api/v1/upload est une Serverless Function limitée à ~4.5 MB → 413.
+//     Utilisez à la place getSignedUploadUrl() + PUT direct vers Supabase.
 
-// upload.path    → identifiant canonique à passer dans createJob
-// upload.size_bytes, upload.content_type — pour vos logs`,
+// 1a. Obtenir une URL d'upload signée (requête JSON légère, aucun fichier envoyé)
+const { uploadUrl, path: audioPath } = await reqvet.getSignedUploadUrl(
+  audioFile.name || 'consultation.webm',
+  audioFile.type || 'audio/webm',
+);
+
+// 1b. Upload direct vers Supabase (bypass Vercel, aucune limite de taille)
+await fetch(uploadUrl, {
+  method: 'PUT',
+  headers: { 'Content-Type': audioFile.type || 'audio/webm' },
+  body: audioFile,
+});
+
+// audioPath → identifiant canonique à passer dans createJob`,
     js: `// Étape 1 : uploader le fichier audio de la consultation
 // Formats supportés : mp3, wav, webm, ogg, m4a, aac, flac
-const upload = await reqvet.uploadAudio(audioFile, 'consultation.mp3');
+//
+// ⚠️  N'utilisez PAS reqvet.uploadAudio() côté serveur (Vercel / Serverless) :
+//     limite ~4.5 MB → 413. Utilisez getSignedUploadUrl() + PUT direct.
 
-// upload.path    → identifiant canonique à passer dans createJob
-// upload.size_bytes, upload.content_type — pour vos logs`,
+// 1a. Obtenir une URL d'upload signée
+const { uploadUrl, path: audioPath } = await reqvet.getSignedUploadUrl(
+  audioFile.name || 'consultation.webm',
+  audioFile.type || 'audio/webm',
+);
+
+// 1b. Upload direct vers Supabase (bypass Vercel, aucune limite de taille)
+await fetch(uploadUrl, {
+  method: 'PUT',
+  headers: { 'Content-Type': audioFile.type || 'audio/webm' },
+  body: audioFile,
+});
+
+// audioPath → identifiant canonique à passer dans createJob`,
   },
 
   createJob: {
     ts: `// Étape 2 : créer le job de génération
 // → la transcription et la génération démarrent immédiatement
 const job = await reqvet.createJob({
-  audioFile: upload.path,       // requis — path retourné par uploadAudio
+  audioFile: audioPath,         // requis — path retourné par getSignedUploadUrl
   animalName: 'Luna',           // requis — nom de l'animal (utilisé dans le prompt)
   templateId,                   // requis — ID récupéré via listTemplates()
   callbackUrl: process.env.REQVET_WEBHOOK_URL,          // recommandé en prod
@@ -144,7 +172,7 @@ const job = await reqvet.createJob({
 console.log(job.job_id); // ex: "a1b2c3d4-e5f6-..."`,
     js: `// Étape 2 : créer le job de génération
 const job = await reqvet.createJob({
-  audioFile: upload.path,       // requis
+  audioFile: audioPath,         // requis
   animalName: 'Luna',           // requis
   templateId,                   // requis
   callbackUrl: process.env.REQVET_WEBHOOK_URL,
@@ -307,10 +335,26 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const upload = await reqvet.uploadAudio(audio, audio.name);
+  // ⚠️  N'utilisez PAS reqvet.uploadAudio() ici : /api/v1/upload passe par Vercel
+  //     et est limité à ~4.5 MB → 413 sur les fichiers de consultation courants.
+  //     Flow correct : getSignedUploadUrl() → PUT direct Supabase (bypass Vercel).
+
+  // 1. Obtenir l'URL signée Supabase (requête JSON légère, aucun fichier)
+  const { uploadUrl, path: audioPath } = await reqvet.getSignedUploadUrl(
+    audio.name || 'consultation.webm',
+    audio.type || 'audio/webm',
+  );
+
+  // 2. Upload direct vers Supabase (contourne Vercel, aucune limite de taille)
+  const audioBuffer = Buffer.from(await audio.arrayBuffer());
+  await fetch(uploadUrl, {
+    method: 'PUT',
+    headers: { 'Content-Type': audio.type || 'audio/webm' },
+    body: audioBuffer,
+  });
 
   const job = await reqvet.createJob({
-    audioFile: upload.path,
+    audioFile: audioPath,
     animalName,
     templateId,
     callbackUrl: process.env.REQVET_WEBHOOK_URL,
@@ -337,10 +381,24 @@ export async function POST(req) {
     );
   }
 
-  const upload = await reqvet.uploadAudio(audio, audio.name);
+  // ⚠️  uploadAudio() limité à ~4.5 MB côté Vercel → 413. Utilisez signed-upload.
+
+  // 1. Obtenir l'URL signée Supabase
+  const { uploadUrl, path: audioPath } = await reqvet.getSignedUploadUrl(
+    audio.name || 'consultation.webm',
+    audio.type || 'audio/webm',
+  );
+
+  // 2. Upload direct vers Supabase (bypass Vercel)
+  const audioBuffer = Buffer.from(await audio.arrayBuffer());
+  await fetch(uploadUrl, {
+    method: 'PUT',
+    headers: { 'Content-Type': audio.type || 'audio/webm' },
+    body: audioBuffer,
+  });
 
   const job = await reqvet.createJob({
-    audioFile: upload.path,
+    audioFile: audioPath,
     animalName,
     templateId,
     callbackUrl: process.env.REQVET_WEBHOOK_URL,
@@ -498,10 +556,22 @@ const regen = await reqvet.regenerateJob(jobId, {
   amend: {
     ts: `// Ajouter un complément audio à un compte-rendu terminé
 // Le vétérinaire ajoute des infos après coup (résultats labo, correction)
-const upload = await reqvet.uploadAudio(complementAudio, 'complement.mp3');
+//
+// ⚠️  Même règle que pour generate : utilisez getSignedUploadUrl() + PUT direct.
+
+// 1. Obtenir l'URL signée + upload direct vers Supabase
+const { uploadUrl, path: audioPath } = await reqvet.getSignedUploadUrl(
+  complementAudio.name || 'complement.webm',
+  complementAudio.type || 'audio/webm',
+);
+await fetch(uploadUrl, {
+  method: 'PUT',
+  headers: { 'Content-Type': complementAudio.type || 'audio/webm' },
+  body: complementAudio,
+});
 
 const amend = await reqvet.amendJob(jobId, {
-  audioFile: upload.path,
+  audioFile: audioPath,
 });
 // { status: 'amending', amendment_number: 1, ... }
 
@@ -510,10 +580,20 @@ const amend = await reqvet.amendJob(jobId, {
 const updated = await reqvet.waitForJob(jobId);
 console.log(updated.html); // HTML intégrant le complément`,
     js: `// Ajouter un complément audio à un compte-rendu terminé
-const upload = await reqvet.uploadAudio(complementAudio, 'complement.mp3');
+// ⚠️  Utilisez getSignedUploadUrl() + PUT direct (uploadAudio() → 413 sur Vercel).
+
+const { uploadUrl, path: audioPath } = await reqvet.getSignedUploadUrl(
+  complementAudio.name || 'complement.webm',
+  complementAudio.type || 'audio/webm',
+);
+await fetch(uploadUrl, {
+  method: 'PUT',
+  headers: { 'Content-Type': complementAudio.type || 'audio/webm' },
+  body: complementAudio,
+});
 
 const amend = await reqvet.amendJob(jobId, {
-  audioFile: upload.path,
+  audioFile: audioPath,
 });
 
 const updated = await reqvet.waitForJob(jobId);
@@ -801,7 +881,8 @@ function GuideStep({
 // ─── Reference arrays ─────────────────────────────────────────
 
 const METHODS = [
-  { method: 'uploadAudio(audio, fileName?)', desc: 'Upload un fichier audio vers ReqVet' },
+  { method: 'getSignedUploadUrl(fileName, contentType)', desc: '⭐ Obtient une URL signée Supabase pour upload direct (recommandé — contourne la limite Vercel ~4.5 MB)' },
+  { method: 'uploadAudio(audio, fileName?)', desc: 'Upload via /api/v1/upload — limité à ~4.5 MB côté Vercel. Utilisez getSignedUploadUrl() en production.' },
   { method: 'generateReport(params)', desc: 'Upload + création de job en une seule étape (raccourci polling)' },
   { method: 'createJob(params)', desc: 'Crée un job de génération (approche webhook)' },
   { method: 'listJobs(options?)', desc: 'Liste les jobs avec pagination et filtres' },
