@@ -656,15 +656,15 @@ const result = await reseller.createOrganization({
 
 // ⚠️ api_key et webhook_secret retournés UNE SEULE FOIS — stocker immédiatement !
 if (result.api_key) {
-  // Première création — conserver de façon sécurisée (vault, base chiffrée…)
-  await db.saveClinicCredentials({
-    orgId: result.organization.id,
-    apiKey: result.api_key,            // rqv_live_... (clé de la clinique)
-    webhookSecret: result.webhook_secret, // whsec_... (signature events sortants)
+  // Première création — stocker CHIFFRÉ en base (encrypt = AES-256 ou vault)
+  // Associer à votre ID clinique pour pouvoir récupérer la clé au runtime
+  await db.clinics.update(votre_id_clinique, {
+    reqvet_org_id:    result.organization.id,
+    reqvet_api_key:   encrypt(result.api_key),       // rqv_live_... chiffré
+    reqvet_wh_secret: encrypt(result.webhook_secret), // whsec_... chiffré
   });
 } else {
-  // Idempotent : org déjà existante — récupérer la clé depuis votre propre stockage
-  const storedKey = await db.getApiKey(result.organization.id);
+  // Idempotent : org déjà existante — clé déjà en base, rien à faire
 }
 
 // La clinique utilise ensuite son propre client ReqVet (clé standard)
@@ -696,10 +696,11 @@ const result = await reseller.createOrganization({
 
 // ⚠️ api_key et webhook_secret retournés UNE SEULE FOIS — stocker immédiatement !
 if (result.api_key) {
-  await db.saveClinicCredentials({
-    orgId: result.organization.id,
-    apiKey: result.api_key,
-    webhookSecret: result.webhook_secret,
+  // Stocker CHIFFRÉ associé à votre ID clinique interne
+  await db.clinics.update(votre_id_clinique, {
+    reqvet_org_id:    result.organization.id,
+    reqvet_api_key:   encrypt(result.api_key),
+    reqvet_wh_secret: encrypt(result.webhook_secret),
   });
 }
 
@@ -712,6 +713,194 @@ const job = await clinic.createJob({
   callbackUrl: 'https://votre-app.com/webhooks/reqvet',
   metadata: { consultationId: 'CONSULT-001' },
 });`,
+  },
+
+  resellerKeyRuntime: {
+    ts: `// app/api/consultation/transcribe/route.ts
+// Appelé quand un vétérinaire authentifié déclenche une transcription
+import { NextRequest, NextResponse } from 'next/server';
+import ReqVet from '@reqvet-sdk/sdk';
+
+export async function POST(req: NextRequest) {
+  // 1. Identifier la clinique de l'utilisateur dans VOTRE système d'auth
+  //    (session, JWT, middleware…)
+  const userId = req.headers.get('x-user-id')!;
+  const clinic = await db.getClinicByUser(userId);
+
+  // 2. Déchiffrer la clé de CETTE clinique — jamais exposée au navigateur
+  const reqvet = new ReqVet(decrypt(clinic.reqvet_api_key));
+
+  const form   = await req.formData();
+  const audio  = form.get('audio') as File;
+
+  // 3. Upload direct Supabase (bypass Vercel)
+  const { uploadUrl, path } = await reqvet.getSignedUploadUrl(
+    audio.name || 'consultation.webm',
+    audio.type || 'audio/webm',
+  );
+  await fetch(uploadUrl, {
+    method: 'PUT',
+    headers: { 'Content-Type': audio.type || 'audio/webm' },
+    body: Buffer.from(await audio.arrayBuffer()),
+  });
+
+  // 4. Créer le job — metadata.clinicId permet de router le webhook entrant
+  const job = await reqvet.createJob({
+    audioFile:    path,
+    animalName:   form.get('animalName') as string,
+    templateId:   clinic.reqvet_template_id,
+    callbackUrl:  process.env.REQVET_WEBHOOK_URL,
+    metadata: {
+      clinicId:       clinic.id,    // ← clé de routage pour le webhook
+      consultationId: form.get('consultationId'),
+    },
+  });
+
+  // Le front reçoit job_id + status="pending" et attend l'event webhook
+  return NextResponse.json(job, { status: 201 });
+}`,
+    js: `// app/api/consultation/transcribe/route.js
+// Appelé quand un vétérinaire authentifié déclenche une transcription
+import ReqVet from '@reqvet-sdk/sdk';
+
+export async function POST(req) {
+  // 1. Identifier la clinique de l'utilisateur dans votre système d'auth
+  const userId = req.headers.get('x-user-id');
+  const clinic = await db.getClinicByUser(userId);
+
+  // 2. Déchiffrer la clé de CETTE clinique — jamais exposée au navigateur
+  const reqvet = new ReqVet(decrypt(clinic.reqvet_api_key));
+
+  const form  = await req.formData();
+  const audio = form.get('audio');
+
+  // 3. Upload direct Supabase (bypass Vercel)
+  const { uploadUrl, path } = await reqvet.getSignedUploadUrl(
+    audio.name || 'consultation.webm',
+    audio.type || 'audio/webm',
+  );
+  await fetch(uploadUrl, {
+    method: 'PUT',
+    headers: { 'Content-Type': audio.type || 'audio/webm' },
+    body: Buffer.from(await audio.arrayBuffer()),
+  });
+
+  // 4. Créer le job — metadata.clinicId pour router le webhook
+  const job = await reqvet.createJob({
+    audioFile:   path,
+    animalName:  form.get('animalName'),
+    templateId:  clinic.reqvet_template_id,
+    callbackUrl: process.env.REQVET_WEBHOOK_URL,
+    metadata: {
+      clinicId:       clinic.id,
+      consultationId: form.get('consultationId'),
+    },
+  });
+
+  return new Response(JSON.stringify(job), {
+    status: 201,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}`,
+  },
+
+  resellerWebhookRoute: {
+    ts: `// app/api/reqvet/webhook/route.ts
+// Un seul endpoint pour TOUTES vos cliniques — routing via metadata.clinicId
+import { NextRequest, NextResponse } from 'next/server';
+import { verifyWebhookSignature } from '@reqvet-sdk/sdk/webhooks';
+
+export async function POST(req: NextRequest) {
+  const rawBody = await req.text();
+  const event   = JSON.parse(rawBody);
+
+  // 1. Retrouver la clinique via metadata.clinicId (injecté dans createJob)
+  const clinicId = event.metadata?.clinicId as string | undefined;
+  if (!clinicId) return new NextResponse('Bad Request', { status: 400 });
+
+  const clinic = await db.getClinic(clinicId);
+  if (!clinic) return new NextResponse('Not Found', { status: 404 });
+
+  // 2. Vérifier la signature avec le secret de CETTE clinique
+  const { ok, reason } = verifyWebhookSignature({
+    secret:    decrypt(clinic.reqvet_wh_secret), // propre à chaque clinique
+    rawBody,
+    signature: req.headers.get('x-reqvet-signature') ?? '',
+    timestamp:  req.headers.get('x-reqvet-timestamp') ?? '',
+    maxSkewMs:  5 * 60 * 1000,
+  });
+
+  if (!ok) {
+    console.warn(\`ReqVet webhook — signature invalide (clinique \${clinicId}):\`, reason);
+    return new NextResponse('Unauthorized', { status: 401 });
+  }
+
+  // 3. Traiter l'event dans le contexte de la clinique
+  if (event.event === 'job.completed') {
+    await db.saveReport(clinicId, {
+      consultationId: event.metadata.consultationId,
+      jobId:          event.job_id,
+      html:           event.html,
+      fields:         event.fields ?? null,
+    });
+    await notifyClinicFront(clinicId, event.job_id); // WebSocket / SSE
+  }
+
+  if (event.event === 'job.failed') {
+    await db.markJobFailed(clinicId, event.job_id, event.error);
+  }
+
+  return NextResponse.json({ ok: true });
+}`,
+    js: `// app/api/reqvet/webhook/route.js
+// Un seul endpoint pour TOUTES vos cliniques — routing via metadata.clinicId
+import { verifyWebhookSignature } from '@reqvet-sdk/sdk/webhooks';
+
+export async function POST(req) {
+  const rawBody = await req.text();
+  const event   = JSON.parse(rawBody);
+
+  // 1. Retrouver la clinique via metadata.clinicId
+  const clinicId = event.metadata?.clinicId;
+  if (!clinicId) return new Response('Bad Request', { status: 400 });
+
+  const clinic = await db.getClinic(clinicId);
+  if (!clinic) return new Response('Not Found', { status: 404 });
+
+  // 2. Vérifier la signature avec le secret de CETTE clinique
+  const { ok, reason } = verifyWebhookSignature({
+    secret:    decrypt(clinic.reqvet_wh_secret),
+    rawBody,
+    signature: req.headers.get('x-reqvet-signature') ?? '',
+    timestamp:  req.headers.get('x-reqvet-timestamp') ?? '',
+    maxSkewMs:  5 * 60 * 1000,
+  });
+
+  if (!ok) {
+    console.warn(\`Signature invalide (clinique \${clinicId}):\`, reason);
+    return new Response('Unauthorized', { status: 401 });
+  }
+
+  // 3. Traiter dans le contexte de la clinique
+  if (event.event === 'job.completed') {
+    await db.saveReport(clinicId, {
+      consultationId: event.metadata.consultationId,
+      jobId:  event.job_id,
+      html:   event.html,
+      fields: event.fields ?? null,
+    });
+    await notifyClinicFront(clinicId, event.job_id);
+  }
+
+  if (event.event === 'job.failed') {
+    await db.markJobFailed(clinicId, event.job_id, event.error);
+  }
+
+  return new Response(JSON.stringify({ ok: true }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}`,
   },
 
   resellerManage: {
@@ -1723,6 +1912,25 @@ export default function SdkPage() {
             <CodeBlock code={SNIPPETS.resellerManage[lang]} />
           </div>
 
+          <div style={{ marginTop: '24px' }}>
+            <h3 className={styles.subTitle}>3) Appeler ReqVet pour le bon utilisateur</h3>
+            <p className={styles.sectionNote} style={{ marginBottom: '12px' }}>
+              À chaque consultation, récupérez la clé de <strong>la clinique de l'utilisateur connecté</strong>{' '}
+              depuis votre base et instanciez un client avec cette clé. La clé ne sort jamais du serveur.
+            </p>
+            <CodeBlock code={SNIPPETS.resellerKeyRuntime[lang]} />
+          </div>
+
+          <div style={{ marginTop: '24px' }}>
+            <h3 className={styles.subTitle}>4) Router les webhooks entrants vers la bonne clinique</h3>
+            <p className={styles.sectionNote} style={{ marginBottom: '12px' }}>
+              Un seul endpoint webhook pour toutes vos cliniques. Le <code>metadata.clinicId</code>{' '}
+              injecté dans <code>createJob</code> vous permet d'identifier la clinique, récupérer son
+              secret et vérifier la signature.
+            </p>
+            <CodeBlock code={SNIPPETS.resellerWebhookRoute[lang]} />
+          </div>
+
           <Callout title="Variables d'environnement revendeur" variant="info">
             Ajoutez dans votre <code>.env.local</code> :
             <br />
@@ -1784,6 +1992,22 @@ export default function SdkPage() {
                 (role <code>reseller</code>), vous pouvez provisionner et gérer vos cliniques clientes
                 programmatiquement. Chaque clinique reçoit sa propre clé API et son isolation de données.
                 Voir la <a href="#reseller">section dédiée</a> pour le guide complet et les exemples de code.
+              </div>
+            </div>
+
+            <div className={styles.faqItem}>
+              <div className={styles.faqQ}>
+                Avec 100 cliniques, comment la bonne clé API arrive au bon vétérinaire ?
+              </div>
+              <div className={styles.faqA}>
+                Les clés cliniques ne circulent jamais — elles restent dans votre base de données,
+                chiffrées. Voici le flux : à la connexion, votre système d'auth identifie l'utilisateur
+                et sait à quelle clinique il appartient. Quand il lance une transcription, votre API
+                route récupère la clé chiffrée de cette clinique, la déchiffre côté serveur, et
+                l'utilise pour instancier le client <code>ReqVet</code>. Le vétérinaire n'a jamais
+                accès à la clé — il ne voit que les résultats. C'est le même pattern qu'avec Stripe
+                ou Twilio : vous êtes le proxy, vos clés restent sur votre serveur.
+                Voir les étapes 3 et 4 de la <a href="#reseller">section Revendeur</a>.
               </div>
             </div>
 
